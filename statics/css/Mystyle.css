@@ -1,0 +1,50 @@
+/* this is for detect/test block */
+.test-style-1{
+    background-color: red;
+}
+.test-style-2{
+    background-color: greenyellow;
+}
+.test-style-3{
+    background-color: aqua;
+}
+
+/* navbar background color */
+.nav-bg{
+    background-color: rgba(92, 94, 95, 0.5);
+}
+/* this is for navbar button setting */
+.nav-item{
+    margin-right: 50px;
+    padding-left: 50px;
+}
+
+/* this is for navbar button word setting */
+.btn-word{
+    font-size: 200%;
+}
+
+/* this is for page body setting  */
+.page-body{
+    background-color: rgba(164, 213, 79 , 0.5);
+}
+
+/* this is for page title */
+.page-title{
+    font-size: 300%;
+}
+
+/* make list item without dot */
+.list-no-dot{
+    list-style-type: none;
+}
+
+/*  this is for page list item */
+.list-item{
+    font-size: 200%;
+    margin-bottom: 10px;
+}
+
+.final-btn-setting{
+    margin-right: 10%;
+}

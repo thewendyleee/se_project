@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}
+個人資料
+{% endblock title %}
+
+{% block h2title %}
+個人資料
+{% endblock h2title %}
+
+{% block mainBody %}
+<div class="container-fluid row text-center">
+    <div class="col">
+      <ul class="list-no-dot">
+        <li class="list-item"><strong>帳號</strong></li>
+        <li class="list-item"><strong>密碼 </strong></li>
+        <li class="list-item"><strong>姓名 </strong></li>
+        <li class="list-item"><strong>性別 </strong></li>
+        <li class="list-item"><strong>年齡 </strong></li>
+        <li class="list-item"><strong>住址 </strong></li>
+        <li class="list-item"><strong>電話號碼 </strong></li>
+      </ul>
+    </div>
+    
+    <div class="col">
+      <ul class="list-no-dot">
+        <li class="list-item"><strong>account{{account}}</strong></li>
+        <li class="list-item"><strong>password{{password}} </strong></li>
+        <li class="list-item"><strong>name{{name}} </strong></li>
+        <li class="list-item"><strong>gender{{gender}} </strong></li>
+        <li class="list-item"><strong>age{{age}} </strong></li>
+        <li class="list-item"><strong>address{{address}} </strong></li>
+        <li class="list-item"><strong>tel_number{{tel_number}} </strong></li>
+      </ul>
+    </div>
+
+
+</div>
+
+  <div class="position-absolute start-50 mt-5 translate-middle">
+    <button type="button" class="btn btn-secondary btn-word"><a href="/personal_info_update_v2"> 修改</a></button>
+  </div>
+{% endblock mainBody %}
