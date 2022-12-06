@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block h2title %}
+    交易紀錄
+{% endblock h2title %}
+
+{% block mainBody %}
+        <div class="mb-1 row">
+                <label for="Text1" class="col-sm-5 col-form-label">交易紀錄編號：</label>
+        </div>
+        <div class="mb-1 row">
+                <label for="Text2" class="col-sm-5 col-form-label">取車時間：</label>
+        </div>
+        <div class="mb-1 row">
+                <label for="Text3" class="col-sm-5 col-form-label">還車時間：</label>
+        </div>
+        <div class="mb-1 row">
+                <label for="Text4" class="col-sm-5 col-form-label">車輛編號：</label>
+        </div>
+        <div class="mb-1 row">
+                <label for="Text5" class="col-sm-5 col-form-label">站點：</label>
+        </div>
+        <div class="mb-1 row">
+                <label for="Text6" class="col-sm-5 col-form-label">付款金額：</label>
+        </div>
+        <div class="col-md-7 text-end">
+                <a type="button" class="btn btn-outline-primary me-2" href="../transaction" role="button">回上一頁</a>
+        </div>
+{% endblock mainBody %}
