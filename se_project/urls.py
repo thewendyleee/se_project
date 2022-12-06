@@ -26,5 +26,7 @@ urlpatterns = [
     path('order/',order),
     path('return_car/',return_car),
     path('personal_info/',personal_info),
-    path('personal_info_update/',personal_info_update)
+    path('personal_info_update/',personal_info_update),
+    path('login/',login),
+    path('register/',register),
 ]

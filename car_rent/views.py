@@ -30,3 +30,10 @@ def personal_info(request):
 
 def personal_info_update(request):
     return render(request,"personal_info_v2.html")
+
+# 賢灝
+def login(request):
+    return render(request,"login.html")
+
+def register(request):
+    return render(request,"register.html")
