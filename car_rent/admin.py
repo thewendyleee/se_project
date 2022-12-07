@@ -5,7 +5,7 @@ from .models import *
 # Register your models here.
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('user_name', 'id', 'account')
+    list_display = ('id', 'user_name', 'account', 'birthday', 'sex', 'telephone', 'address')
 
 
 admin.site.register(User, UserAdmin)
@@ -19,7 +19,7 @@ admin.site.register(CarType, CarTypeAdmin)
 
 
 class CarAdmin(admin.ModelAdmin):
-    list_display = ('id', 'status', 'manufacturer', 'car_type')
+    list_display = ('id', 'status', 'manufacturer', 'production_time', 'Insurance_id', 'car_type', 'locate_station')
 
 
 admin.site.register(Car, CarAdmin)
@@ -33,10 +33,10 @@ admin.site.register(Station, StationAdmin)
 
 
 class UserOrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'order_car', 'order_user', 'order_station')
+    list_display = ('id', 'order_car', 'order_time', 'order_user', 'order_status')
 
 
-admin.site.register(Order,UserOrderAdmin)
+admin.site.register(Order, UserOrderAdmin)
 
 
 class ReportAdmin(admin.ModelAdmin):
@@ -44,3 +44,10 @@ class ReportAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Report, ReportAdmin)
+
+
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'pick_up_car_time', 'return_car_time', 'transaction_car', 'transaction_station', 'pay')
+
+
+admin.site.register(Transaction, TransactionAdmin)
