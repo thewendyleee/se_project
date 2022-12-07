@@ -4,6 +4,27 @@ import uuid
 
 
 # Create your models here.
+
+class Order(models.Model):
+    order_time = models.DateTimeField()
+    order_station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True)  # 站點資訊
+    order_user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)  # 使用者
+    order_car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)  # 車輛資訊
+
+    order_st = (
+        ('p', '未付款'),
+        ('np', '已付款'),
+    )
+    order_status = models.CharField(
+        max_length=10,
+        choices=order_st,
+        default='np',
+    )
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return str(self.id)
+
 class User(models.Model):
     user_name = models.CharField(max_length=20)
     account = models.CharField(max_length=50)
@@ -72,29 +93,6 @@ class Station(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return self.station_name
-
-
-class Order(models.Model):
-    order_time = models.DateTimeField()
-    order_station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True)  # 站點資訊
-    order_user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)  # 使用者
-    order_car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)  # 車輛資訊
-
-    order_st = (
-        ('p', '未付款'),
-        ('np', '已付款'),
-    )
-    order_status = models.CharField(
-        max_length=10,
-        choices=order_st,
-        default='np',
-    )
-
-    def __str__(self):
-        """String for representing the Model object."""
-        return str(self.id)
-
-
 class Report(models.Model):
     reason = models.TextField(max_length=1000)
     date = models.DateTimeField()
@@ -102,3 +100,4 @@ class Report(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return str(self.id)
+

@@ -32,11 +32,11 @@ class StationAdmin(admin.ModelAdmin):
 admin.site.register(Station, StationAdmin)
 
 
-# class UserOrderAdmin(admin.ModelAdmin):
-#     list_display = ('id', 'user', 'car', 'station')
+class UserOrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'order_car', 'order_user', 'order_station')
 
 
-admin.site.register(Order)
+admin.site.register(Order,UserOrderAdmin)
 
 
 class ReportAdmin(admin.ModelAdmin):
