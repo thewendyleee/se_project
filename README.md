@@ -17,8 +17,6 @@ git push -u origin <new function> # remember origin and <new funciton>
 git checkout main
 git pull
 # 一切都跟遠端同步了，可以重新開始以上步驟
-```
 
-```
-testtest222222
+git pull --rebase # 避免在合併時產生其他commit
 ```
