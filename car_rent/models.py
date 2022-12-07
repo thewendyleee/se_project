@@ -74,19 +74,19 @@ class Station(models.Model):
         return self.station_name
 
 
-class UserOrder(models.Model):
+class Order(models.Model):
     order_time = models.DateTimeField()
-    station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True)  # 站點資訊
-    user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)  # 使用者
-    car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)  # 車輛資訊
+    order_station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True)  # 站點資訊
+    order_user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)  # 使用者
+    order_car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)  # 車輛資訊
 
-    st = (
+    order_st = (
         ('p', '未付款'),
         ('np', '已付款'),
     )
-    status = models.CharField(
+    order_status = models.CharField(
         max_length=10,
-        choices=st,
+        choices=order_st,
         default='np',
     )
 

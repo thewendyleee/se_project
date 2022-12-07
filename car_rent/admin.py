@@ -36,7 +36,7 @@ admin.site.register(Station, StationAdmin)
 #     list_display = ('id', 'user', 'car', 'station')
 
 
-admin.site.register(UserOrder)
+admin.site.register(Order)
 
 
 class ReportAdmin(admin.ModelAdmin):
