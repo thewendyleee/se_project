@@ -22,7 +22,13 @@ def transaction_detail(request):
 
 # 世界
 def order(request):
-    return render(request, "order.html")
+    inputI={'name':"查看訂單"}
+    inputI['Code'] = "111423004"
+    inputI['activeT'] = "2022-12-06"
+    inputI['Place'] = "依仁堂"
+    inputI['CarN'] = "24601"
+    inputI['state'] = "尚未啟用"
+    return render(request,"order.html",inputI)
 
 
 def return_car(request):
@@ -30,7 +36,14 @@ def return_car(request):
 
 
 # 佳辰
-def personal_info(request):
+def personal_info(request):    
+    context ={'age':"20"}
+    context['name'] ="蘇世界"
+    context['account'] ="111423004"
+    context['password'] ="4125252"
+    context['gender'] ="男生"
+    context['address'] ="中央路11111"
+    context['tel_number'] ="0977777777"
     return render(request, "personal_info_v2.html")
 
 
