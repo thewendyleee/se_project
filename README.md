@@ -1,4 +1,9 @@
-## 12/28 Demo
+# Note
+* 12/28 Demo
+* 有兩個Static資料夾
+  * Static -> For the setting of nginx
+  * Statics -> Static file for website
+
 
 # se_project
 
