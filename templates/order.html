@@ -1,56 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>order畫面</title>
-    <!link rel="stylesheet" href="/static/plugins/bootstrap-5.2.3-dist/bootstrap-5.2.3-dist/css/bootstrap.css">
-</head>
-
+{% extends "base.html"%}
+{% block mainBody %}
 <body bgcolor="#FFFFB9" link="black"vlink="black" alink="red">
-
    {% load static%}
-   <font size=4><b><Marquee bgcolor="yellow"behavior="scroll" direction="left" scrollamount="5">
-       <img src="http://o.cztvcloud.com/241/posts/2020/04/23/e8440910c21a8f620972db464ecfd8cb.jpg" width="40" height="20" valign="middle">
-       歡迎使用中央大學租車系統
-       <img src="http://o.cztvcloud.com/241/posts/2020/04/23/e8440910c21a8f620972db464ecfd8cb.jpg" width="40" height="20" valign="middle">
-       </Marquee></b>
-   </font>
-   <img align="left" src="../static/images/中央大學.jpg" width="200">
-     <h1 align="left">{{name}}</h1>
-   <!th 標題>
-   <!其他功能>
-   <table width="100%" align="center" bgcolor="#FFFFB9">
-       <tr>
-           <th width="100" bgcolor="#D3FF93"><A href="https://www.youtube.com/watch?v=UsFQ9kbpQhw&list=RDunvpEOE93zE&index=10&ab_channel=ReverieOscar">租借車</A></th>
-           <th width="100" bgcolor="#D3FF93"><A href="https://www.youtube.com/watch?v=0rp3pP2Xwhs&list=RDunvpEOE93zE&index=9&ab_channel=%E8%8C%84%E5%AD%90%E8%9B%8BEggPlantEgg">車輛報修</A></th>
-           <th width="100" bgcolor="#D3FF93"><A href="https://www.youtube.com/watch?v=6Q0Pd53mojY&list=RDunvpEOE93zE&index=18&ab_channel=%E5%91%A8%E6%9D%B0%E5%80%ABJayChou">查看訂單</A></th>
-           <th width="100" bgcolor="#D3FF93"><A href="https://www.youtube.com/watch?v=kfXdP7nZIiE&list=RDunvpEOE93zE&index=25">交易紀錄</A></th>
-           <th width="100" bgcolor="#D3FF93"><A href="https://www.youtube.com/watch?v=unvpEOE93zE&list=RDunvpEOE93zE&index=1">個人資料</A></th>
-       </tr>
-   </table>
-   <hr noshade>
-   <br><br><br><br>
-
+   <h1 align="center">{{name}}</h1>
+   <br>
    <!內容>
    <table width="60%" align="center" bgcolor="#A6FFFF" border="1" cellspacing="0">
        <tr><td colspan="5" align="center"><font size+2><b>目前您的訂單資訊</b></font></td></tr>
-       <tr><td width="30%" align="center">1.交易編號</td><td align="center">1123546</td></tr>
-       <tr><td width="30%" align="center">2.下單時間</td><td align="center">2022-12-6</td></tr>
-       <tr><td width="30%" align="center">3.站點資訊</td><td align="center">依仁堂</td></tr>
-       <tr><td width="30%" align="center">4.車輛資訊</td><td align="center">A12131</td></tr>
-       <tr><td width="30%" align="center">5.車輛狀態</td><td align="center">預定中</td></tr>
+       <tr><td width="30%" align="center">1.交易編號</td><td align="center">{{Code}}</td></tr>
+       <tr><td width="30%" align="center">2.下單時間</td><td align="center">{{activeT}}</td></tr>
+       <tr><td width="30%" align="center">3.站點資訊</td><td align="center">{{Place}}</td></tr>
+       <tr><td width="30%" align="center">4.車輛資訊</td><td align="center">{{CarN}}</td></tr>
+       <tr><td width="30%" align="center">5.車輛狀態</td><td align="center" id="CarS">{{state}}</td></tr>
    </table>
    <br><br>
    <center>
-   <input type="button" value="解鎖" > <input type="button" value="刪除訂單">
-   <input type="button" value="回上一頁" onclick="location.href='https://www.youtube.com/'">
+   <input type="button" value="解鎖" onclick="Activate()" >
+   <input type="button" value="刪除訂單" onclick="Delete()" >
+   <input type="button" value="回上一頁" onclick="location.href='http://127.0.0.1:8000/inf/'">
    </center>
+<br><br><br><br>
 
 
-<br><br><br><br><br><br><br><br><br><br><br><br>
+<script>
 
-</body>
+     date = new Date();
+     year = date.getFullYear();
+     month = date.getMonth() + 1;
+     day = date.getDate();
+     h = date.getHours();
+     m = date.getMinutes();
 
-
-
-</html>
+     function Activate(){
+         document.getElementById("CarS").textContent = "開始啟用";
+         document.getElementById("currentT").innerHTML = year + " / "+ month + " / " + day + " - " + h + ":" + m ;
+     }
+     function Delete(){
+         window.confirm('確認取消訂單?');
+         if (confirm('確認取消訂單?') == true) {
+            document.getElementById("Code").textContent = "無";
+            document.getElementById("activeT").textContent = "無";
+            document.getElementById("Place").textContent = "無";
+            document.getElementById("CarN").textContent = "無";
+            document.getElementById("CarS").textContent = "無";
+            showtxt.innerHTML = '取消成功，感謝使用';
+         } else {
+            showtxt.innerHTML = '您已取消確認';
+         }
+     }
+</script>
+{% endblock mainBody %}
