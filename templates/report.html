@@ -11,7 +11,7 @@
 {% block mainBody %}
     <div class="row mb-3">
         <label for="colFormLabel" class="col-sm-2 col-form-label">回報時間：</label>
-        <label for="colFormLabel" class="col-sm-2 col-form-label">2022/3/8 10:30</label>
+        <label for="colFormLabel" class="col-sm-2 col-form-label"><span id = "currentT"></span></label>
     </div>
 
     <div class="row mb-3">
@@ -47,4 +47,15 @@
             </form>
         </div>
     </div>
+
+    <script>
+    date = new Date();
+    year = date.getFullYear();
+    month = date.getMonth() + 1;
+    day = date.getDate();
+    h = date.getHours();
+    m = date.getMinutes();
+    document.getElementById("currentT").innerHTML = year + " / "+ month + " / " + day + " - " + h + ":" + m ;
+    </script>
+
 {% endblock mainBody %}
