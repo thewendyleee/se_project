@@ -28,21 +28,48 @@
 
 </style>
 <!box-shadow : x 軸 | y 軸| 模糊半徑 | 擴散距離 | 顏色 | (inset)>
+{% block title %}
+個人資訊
+{% endblock title %}
 
+{% block h2title %}
+個人資料
+{% endblock h2title %}
+
+{% block mainBody %}
 <center>
-    <div class="col">
-        <li class="list-item m-4">帳號:  &nbsp&nbsp&nbsp&nbsp<input name="account" type="text" class="Radius" value={{account}}></li>
-        <li class="list-item m-4">密碼:  &nbsp&nbsp&nbsp&nbsp<input name="password" type="text" class="Radius" value={{password}}></li>
-        <li class="list-item m-4">姓名:  &nbsp&nbsp&nbsp&nbsp<input name="name" type="text" class="Radius" value={{name}}></li>
-        <li class="list-item m-4">性別:  &nbsp&nbsp&nbsp&nbsp<input name="gender" type="text" class="Radius" value={{gender}}></li>
-        <li class="list-item m-4">年齡:  &nbsp&nbsp&nbsp&nbsp<input name="age" type="text" class="Radius" value={{age}}></li>
-        <li class="list-item m-4">住址:  &nbsp&nbsp&nbsp&nbsp<input name="address" type="text" class="Radius" value={{address}}></li>
-        <li class="list-item m-4">電話:  &nbsp&nbsp&nbsp&nbsp<input name="tel_number" type="text" class="Radius" value={{tel_number}}></li>
+    <div class="mb-1 row">
+      <label for="Text1" class="col-sm-5 col-form-label">帳號:</label>
+      <label for="Text1" class="col-sm-5 col-form-label col-3">{{account}}</label>
+    </div>
+    <div class="mb-1 row">
+      <label for="Text1" class="col-sm-5 col-form-label">密碼:</label>
+      <label for="Text1" class="col-sm-5 col-form-label col-3">{{password}}</label>
+    </div>
+    <div class="mb-1 row">
+      <label for="Text1" class="col-sm-5 col-form-label">姓名:</label>
+      <label for="Text1" class="col-sm-5 col-form-label col-3">{{name}}</label>
+    </div>
+    <div class="mb-1 row">
+      <label for="Text1" class="col-sm-5 col-form-label">性別:</label>
+      <label for="Text1" class="col-sm-5 col-form-label col-3">{{gender}}</label>
+    </div>
+    <div class="mb-1 row">
+      <label for="Text1" class="col-sm-5 col-form-label">年齡:</label>
+      <label for="Text1" class="col-sm-5 col-form-label col-3">{{age}}</label>
+    </div>
+    <div class="mb-1 row">
+      <label for="Text1" class="col-sm-5 col-form-label">住址:</label>
+      <label for="Text1" class="col-sm-5 col-form-label col-3">{{address}}</label>
+    </div>
+    <div class="mb-1 row">
+      <label for="Text1" class="col-sm-5 col-form-label">電話:</label>
+      <label for="Text1" class="col-sm-5 col-form-label col-3">{{tel_number}}</label>
     </div>
 
     <div class="position-absolute start-50 mt-5 translate-middle">
-      <button type="button" class="btn btn-secondary btn-word me-5"> 確認</button>
-      <button type="button" class="btn btn-secondary btn-word me-5"> 取消</button>
+      <button type="button" class="btn btn-secondary btn-word me-5" onclick="location.href='/personal_info_update'"> 修改</button>
+      <button type="button" class="btn btn-secondary btn-word me-5" onclick="location.href='/rent'"> 取消</button>
     </div>
 </center>
 

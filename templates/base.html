@@ -38,17 +38,18 @@
             </svg>
         </a>
 
+        {% comment %} 以下button使用IP:127.0.0.1 不確定是否會造成問題{% endcomment %}
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <button class="btn btn-outline-success me-2" type="button" onclick="location.href='http://127.0.0.1:8000/rent/'">租借車</button>
             <button class="btn btn-outline-success me-2" type="button" onclick="location.href='http://127.0.0.1:8000/report/'">車輛報修</button>
-            <button class="btn btn-outline-success me-2" type="button" onclick="location.href='http://127.0.0.1:8000/NewOrder/'">查看訂單</button>
+            <button class="btn btn-outline-success me-2" type="button" onclick="location.href='http://127.0.0.1:8000/order/'">查看訂單</button>
             <button class="btn btn-outline-success me-2" type="button" onclick="location.href='http://127.0.0.1:8000/transaction/'">交易紀錄</button>
-            <button class="btn btn-outline-success me-2" type="button" onclick="location.href='http://127.0.0.1:8000/inf/'">個人資料</button>
+            <button class="btn btn-outline-success me-2" type="button" onclick="location.href='http://127.0.0.1:8000/personal_info/'">個人資料</button>
         </ul>
 
         <div class="col-md-3 text-end">
-            <a type="button" class="btn btn-outline-primary me-2" href="../login" role="button">Login</a>
-            <a type="button" class="btn btn-primary" href="../register" role="button">Sign-up</a>
+            <a type="button" class="btn btn-outline-primary me-2" href="../login" role="button">Logout</a>
+            {% comment %} <a type="button" class="btn btn-primary" href="../register" role="button">Sign-up</a> {% endcomment %}
         </div>
     </header>
 </div>

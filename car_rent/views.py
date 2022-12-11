@@ -4,7 +4,11 @@ from django.shortcuts import render
 
 # 育慈 
 def rent(request):
-    return render(request, "rent.html")
+    num_bike = 4
+    num_scooter = 5
+    return render(request, "rent.html", {
+        'num_bike': num_bike ,
+        'num_scooter': num_scooter})
 
 
 def report(request):
@@ -13,11 +17,19 @@ def report(request):
 
 # 欣瑩
 def transaction(request):
-    return render(request, "transaction.html")
+    test_range = range(3)
+    return render(request, "transaction.html",{'test_range':test_range})
 
 
 def transaction_detail(request):
-    return render(request, "transaction_detail.html")
+    trans_detail = {}
+    trans_detail['trans_id'] = '11234'
+    trans_detail['get_time'] = '2022/12/44'
+    trans_detail['return_time'] = '2023/2/236'
+    trans_detail['viechle_id'] = '56789'
+    trans_detail['station'] = '依仁堂'
+    trans_detail['price'] = '100'
+    return render(request, "transaction_detail.html", trans_detail)
 
 
 # 世界
@@ -25,7 +37,7 @@ def order(request):
     inputI={'name':"查看訂單"}
     inputI['Code'] = "111423004"
     inputI['activeT'] = "2022-12-06"
-    inputI['Place'] = "依仁堂"
+    inputI['Place'] = "依仁堂前門"
     inputI['CarN'] = "24601"
     inputI['state'] = "尚未啟用"
     return render(request,"order.html",inputI)
@@ -37,18 +49,19 @@ def return_car(request):
 
 # 佳辰
 def personal_info(request):    
-    context ={'age':"20"}
-    context['name'] ="蘇世界"
-    context['account'] ="111423004"
-    context['password'] ="4125252"
-    context['gender'] ="男生"
-    context['address'] ="中央路11111"
-    context['tel_number'] ="0977777777"
-    return render(request, "personal_info_v2.html")
+    personal_info = {}
+    personal_info['account'] = 'abc123'
+    personal_info['password'] = '123456'
+    personal_info['name'] = 'Oscar'
+    personal_info['gender'] = 'Male'
+    personal_info['age'] = '24'
+    personal_info['address'] = 'Apple street'
+    personal_info['tel_number'] = '09456789'
+    return render(request, "personal_info_v2.html", personal_info)
 
 
 def personal_info_update(request):
-    return render(request, "personal_info_v2.html")
+    return render(request, "personal_info_update_v2.html")
 
 
 # 賢灝

@@ -9,36 +9,20 @@
 {% endblock h2title %}
 
 {% block mainBody %}
-<div class="container-fluid row text-center">
-    <div class="col">
-      <ul class="list-no-dot">
-        <li class="list-item m-3"><strong>帳號</strong></li>
-        <li class="list-item m-3"><strong>密碼 </strong></li>
-        <li class="list-item m-3"><strong>姓名 </strong></li>
-        <li class="list-item m-3"><strong>性別 </strong></li>
-        <li class="list-item m-3"><strong>年齡 </strong></li>
-        <li class="list-item m-3"><strong>住址 </strong></li>
-        <li class="list-item m-3"><strong>電話號碼 </strong></li>
-      </ul>
-    </div>
-    
-    <div class="col">
-      <ul class="list-no-dot">
-        <li class="list-item m-4"><input name="account" type="text" class="form-control" value="account"></li>
-        <li class="list-item m-4"><input name="password" type="text" class="form-control" value="password"></li>
-        <li class="list-item m-4"><input name="name" type="text" class="form-control" value="name"></li>
-        <li class="list-item m-4"><input name="gender" type="text" class="form-control" value="gender"></li>
-        <li class="list-item m-4"><input name="age" type="text" class="form-control" value="age"></li>
-        <li class="list-item m-4"><input name="address" type="text" class="form-control" value="address"></li>
-        <li class="list-item m-4"><input name="tel_number" type="text" class="form-control" value="tel_number"></li>
-      </ul>
-    </div>
+<center>
+  <div class="col">
+      <li class="list-item m-4">帳號:  &nbsp&nbsp&nbsp&nbsp<input name="account" type="text" class="Radius" value={{account}}></li>
+      <li class="list-item m-4">密碼:  &nbsp&nbsp&nbsp&nbsp<input name="password" type="text" class="Radius" value={{password}}></li>
+      <li class="list-item m-4">姓名:  &nbsp&nbsp&nbsp&nbsp<input name="name" type="text" class="Radius" value={{name}}></li>
+      <li class="list-item m-4">性別:  &nbsp&nbsp&nbsp&nbsp<input name="gender" type="text" class="Radius" value={{gender}}></li>
+      <li class="list-item m-4">年齡:  &nbsp&nbsp&nbsp&nbsp<input name="age" type="text" class="Radius" value={{age}}></li>
+      <li class="list-item m-4">住址:  &nbsp&nbsp&nbsp&nbsp<input name="address" type="text" class="Radius" value={{address}}></li>
+      <li class="list-item m-4">電話:  &nbsp&nbsp&nbsp&nbsp<input name="tel_number" type="text" class="Radius" value={{tel_number}}></li>
   </div>
-
-</div>
 
   <div class="position-absolute start-50 mt-5 translate-middle">
     <button type="button" class="btn btn-secondary btn-word me-5"> 確認</button>
-    <button type="button" class="btn btn-secondary btn-word me-5"> 取消</button>
+    <button type="button" class="btn btn-secondary btn-word me-5" onclick="location.href='/personal_info'"> 取消</button>
   </div>
+</center>
 {% endblock mainBody %}

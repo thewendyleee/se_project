@@ -19,15 +19,15 @@
             </select>
         </div>
     </div>
-
+{% comment %} 
     <div class="row mb-3">
         <label for="colFormLabel" class="col-sm-2 col-form-label">位置：</label>
         <label for="colFormLabel" class="col-sm-2 col-form-label">志希館前</label>
-    </div>
+    </div> {% endcomment %}
 
     <div class="row mb-3">
-        <label for="colFormLabel" class="col-sm-2 col-form-label">腳踏車：</label>
-        <label for="colFormLabel" class="col-sm-2 col-form-label">3輛</label>
+        <label for="colFormLabel" class="col-sm-3 col-form-label">腳踏車：</label>
+        <label for="colFormLabel" class="col-sm-2 col-form-label">{{num_bike}}輛</label>
         <div class="col-sm">
             <form class="container-fluid justify-content-start">
                 <button class="btn btn-outline-success me-2" type="button">預約</button>
@@ -36,8 +36,8 @@
     </div>
 
     <div class="row mb-3">
-        <label for="colFormLabel" class="col-sm-2 col-form-label">電動滑板車：</label>
-        <label for="colFormLabel" class="col-sm-2 col-form-label">5輛</label>
+        <label for="colFormLabel" class="col-sm-3 col-form-label">電動滑板車：</label>
+        <label for="colFormLabel" class="col-sm-2 col-form-label">{{num_scooter}}輛</label>
         <div class="col-sm">
             <form class="container-fluid justify-content-start">
                 <button class="btn btn-outline-success me-2" type="button">預約</button>
@@ -45,10 +45,12 @@
         </div>
     </div>
 
+<center>
     <div class="col-sm">
         <form class="container-fluid justify-content-start">
             <button class="btn btn-outline-success me-2" type="button">確認</button>
         </form>
     </div>
+</center>
 
 {% endblock mainBody %}
