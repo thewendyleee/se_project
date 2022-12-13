@@ -29,55 +29,55 @@
         </div>
         <div class="col-5" style="margin: auto;text-align: center;">
             <div class="m-5">
-                <form class="needs-validation" action="" novalidate>
+                <form class="needs-validation" action="" method ="get" name="myform" novalidate>
                     <h2 class="m-4">註冊中央租車系統</h2>
                     <div class="mb-3" style="text-align: left">
                         <label for="userid" class="form-label">請輸入使用者名稱</label>
-                        <input type="text" class="form-control" id="userid" placeholder="範例：蘇世戒" required>
+                        <input type="text" class="form-control" id="userid" name="userid" placeholder="範例：蘇世戒" required>
                         <div class="invalid-feedback">必填</div>
                     </div>
                     <div class="mb-3" style="text-align: left">
                         <label for="account" class="form-label">請輸入帳號</label>
-                        <input type="text" class="form-control" id="account" placeholder="範例:111423111" required>
+                        <input type="text" class="form-control" id="account" name="account" placeholder="範例:111423111" required>
                         <div class="invalid-feedback">必填</div>
                     </div>
                     <div class="mb-3" style="text-align: left">
                         <label for="pwd" class="form-label">請輸入密碼</label>
-                        <input type="password" id="pwd" class="form-control" aria-describedby="passwordHelpBlock" required>
+                        <input type="password" id="pwd" class="form-control" name="pwd" aria-describedby="passwordHelpBlock" required>
                         <div class="invalid-feedback">必填</div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col" style="text-align: left">
                             <label for="date" class="form-label">請輸入生日</label>
-                            <input type="date" class="form-control" id="date" required>
+                            <input type="date" class="form-control" id="date" name="date" required>
                             <div class="invalid-feedback">必填</div>
                         </div>
                         <div class="col" style="text-align: left">
-                            <label for="inputsex" class="form-label">請輸入性別</label>
-                            <select class="form-select" id="inputsex" required>
+                            <p><label for="inputsex" class="form-label">請輸入性別</label>
+                            <select class="form-select"  id="inputsex" name="input_sex" required>
                                 <option selected disabled value="">選擇性別</option>
-                                <option value="1">男</option>
-                                <option value="2">女</option>
-                                <option value="3">不願公開</option>
+                                <option value="m">男</option>
+                                <option value="f">女</option>
+                                <option value="n">不願公開</option>
                             </select>
+                            </p>
                             <div class="invalid-feedback">必填</div>
                         </div>
                     </div>
                     <div class="mb-3" style="text-align: left">
                         <label for="phone" class="form-label">請輸入電話號碼</label>
-                        <input type="tel" class="form-control" id="phone" placeholder="範例：09xxxxxxxx" required>
+                        <input type="tel" class="form-control" id="phone"name="phone"placeholder="範例：09xxxxxxxx" required>
                         <div class="invalid-feedback">必填</div>
                     </div>
                     <div class="mb-3" style="text-align: left">
                         <label for="address" class="form-label">請輸入地址</label>
-                        <input type="text" class="form-control" id="address" placeholder="" required>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="" required>
                         <div class="invalid-feedback">必填</div>
                     </div>
 
                     <div class="d-grid gap-2 mt-3">
                         <button type="submit" class="btn btn-lg btn-success">送出</button>
                     </div>
-
                     <div class="m-lg-5">
                         {% load static %}
                         <img src="{% static 'images/ncu_logo.png' %}" alt="" width=100% height=100%>
@@ -107,5 +107,7 @@
   }, false);
 })();
 </script>
+
+
 </body>
 </html>
