@@ -33,7 +33,7 @@ admin.site.register(Station, StationAdmin)
 
 
 class UserOrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'order_car', 'order_time', 'order_user', 'order_status')
+    list_display = ('id', 'order_car', 'order_time', 'order_user', 'order_station', 'order_status')
 
 
 admin.site.register(Order, UserOrderAdmin)
@@ -47,7 +47,8 @@ admin.site.register(Report, ReportAdmin)
 
 
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'pick_up_car_time', 'return_car_time', 'transaction_car', 'transaction_station', 'pay')
+    list_display = (
+    'id', 'pick_up_car_time', 'return_car_time', 'transaction_user', 'transaction_car', 'transaction_station', 'pay')
 
 
 admin.site.register(Transaction, TransactionAdmin)

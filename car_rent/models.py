@@ -64,7 +64,7 @@ class Car(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return str(self.id)
+        return str(self.id) + "(" + str(self.car_type) + ")"
 
 
 class Station(models.Model):
@@ -80,7 +80,7 @@ class Station(models.Model):
 class Order(models.Model):
     order_time = models.DateTimeField()
     unlock_code = models.UUIDField(default=uuid.uuid4)
-    # order_station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True)  # 站點資訊
+    order_station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True)  # 站點資訊
     order_user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)  # 使用者
     order_car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)  # 車輛資訊
 
@@ -113,6 +113,7 @@ class Report(models.Model):
 class Transaction(models.Model):
     pick_up_car_time = models.DateTimeField()
     return_car_time = models.DateTimeField()
+    transaction_user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)  # 使用者資訊
     transaction_car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)  # 車輛資訊
     transaction_station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True)  # 站點資訊
     pay = models.IntegerField()
