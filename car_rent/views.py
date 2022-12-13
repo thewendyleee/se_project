@@ -88,6 +88,19 @@ def UserManager(request):
     
     return render(request , "personal_info_v2.html", user)
 
+def UserUpdateManager(request):
+    user = {}
+    entry = User.objects.get(id=1)
+    user['account'] = entry.account
+    user['password'] = entry.password
+    user['name'] = entry.user_name
+    user['gender'] = entry.sex
+    user['birth'] = entry.birthday
+    user['address'] = entry.address
+    user['tel_number'] = entry.telephone
+    
+    return render(request , "personal_info_update_v2.html", user)
+
 def OrderManager(request):
     order = {}
     entry = Order.objects.get(id=1)
@@ -112,7 +125,7 @@ def TransDetailManager(request):
     transdetail = {}
     entry_Order = Order.objects.get(id=1) #transaction 缺乏id 目前占用order id
     entry = Transaction.objects.get(id=1) #這裡id應該要跟著前一頁選擇的id 而定
-    transdetail['trans_id'] = entry.transaction_id
+    transdetail['trans_id'] = entry_Order.unlock_code
     transdetail['get_time'] = entry.pick_up_car_time
     transdetail['return_time'] = entry.return_car_time
     transdetail['viechle_id'] = entry.transaction_car
