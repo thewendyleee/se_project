@@ -113,6 +113,7 @@ class Report(models.Model):
 class Transaction(models.Model):
     pick_up_car_time = models.DateTimeField()
     return_car_time = models.DateTimeField()
+    transaction_id = models.CharField(max_length=50)  # 跟隨order UUID
     transaction_user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)  # 使用者資訊
     transaction_car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)  # 車輛資訊
     transaction_station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True)  # 站點資訊

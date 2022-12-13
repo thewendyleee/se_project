@@ -67,6 +67,7 @@ def personal_info_update(request):
 
 # 賢灝
 def login(request):
+    
     return render(request, "login.html")
 
 
