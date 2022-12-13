@@ -109,4 +109,15 @@ def TransactionManager(request):
 
 def TransDetailManager(request):
     transdetail = {}
+    entry_Order = Order.objects.get(id=1) #transaction 缺乏id 目前占用order id
+    entry = Transaction.objects.get(id=2) #這裡id應該要跟著前一頁選擇的id 而定
+    transdetail['trans_id'] = entry_Order.unlock_code
+    transdetail['get_time'] = entry.pick_up_car_time
+    transdetail['return_time'] = entry.return_car_time
+    transdetail['viechle_id'] = entry.transaction_car
+    transdetail['station'] = entry.transaction_station
+    transdetail['price'] = entry.pay
+
+    return render(request, "transaction_detail.html", transdetail)
+
     
