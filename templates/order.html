@@ -14,8 +14,9 @@
        <tr><td width="30%" align="center">5.車輛狀態</td><td align="center" id="CarS">{{state}}</td></tr>
    </table>
    <br><br>
-   <center>
-   <input type="button" value="解鎖" onclick="Activate()" >
+   <center> 
+       {% comment %} 底下按鈕需要重設 {% endcomment %}
+   <input type="button" value="解鎖" id="btn_active" onclick="Activate()" >
    <input type="button" value="刪除訂單" onclick="Delete()" >
    <input type="button" value="回上一頁" onclick="location.href='/rent'">
    </center>
