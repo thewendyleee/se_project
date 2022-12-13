@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import *
 
 # Create your views here.
 
@@ -33,14 +34,14 @@ def transaction_detail(request):
 
 
 # 世界
-def order(request):
-    inputI={'name':"查看訂單"}
-    inputI['Code'] = "111423004"
-    inputI['activeT'] = "2022-12-06"
-    inputI['Place'] = "依仁堂前門"
-    inputI['CarN'] = "24601"
-    inputI['state'] = "尚未啟用"
-    return render(request,"order.html",inputI)
+# def order(request):
+#     inputI={'name':"查看訂單"}
+#     inputI['Code'] = "111423004"
+#     inputI['activeT'] = "2022-12-06"
+#     inputI['Place'] = "依仁堂前門"
+#     inputI['CarN'] = "24601"
+#     inputI['state'] = "尚未啟用"
+#     return render(request,"order.html",inputI)
 
 
 def return_car(request):
@@ -48,16 +49,16 @@ def return_car(request):
 
 
 # 佳辰
-def personal_info(request):    
-    personal_info = {}
-    personal_info['account'] = 'abc123'
-    personal_info['password'] = '123456'
-    personal_info['name'] = 'Oscar'
-    personal_info['gender'] = 'Male'
-    personal_info['age'] = '24'
-    personal_info['address'] = 'Apple street'
-    personal_info['tel_number'] = '09456789'
-    return render(request, "personal_info_v2.html", personal_info)
+# def personal_info(request):    
+#     personal_info = {}
+#     personal_info['account'] = 'abc123'
+#     personal_info['password'] = '123456'
+#     personal_info['name'] = 'Oscar'
+#     personal_info['gender'] = 'Male'
+#     personal_info['age'] = '24'
+#     personal_info['address'] = 'Apple street'
+#     personal_info['tel_number'] = '09456789'
+#     return render(request, "personal_info_v2.html", personal_info)
 
 
 def personal_info_update(request):
@@ -71,3 +72,38 @@ def login(request):
 
 def register(request):
     return render(request, "register.html")
+
+
+def UserManager(request):
+    user = {}
+    entry = User.objects.get(id=1)
+    user['account'] = entry.account
+    user['password'] = entry.password
+    user['name'] = entry.user_name
+    user['gender'] = entry.sex
+    user['birth'] = entry.birthday
+    user['address'] = entry.address
+    user['tel_number'] = entry.telephone
+    
+    return render(request , "personal_info_v2.html", user)
+
+def OrderManager(request):
+    order = {}
+    entry = Order.objects.get(id=1)
+    order['Code'] = entry.unlock_code
+    order['activeT'] = entry.order_time
+    order['Place'] = entry.order_station
+    order['CarN'] = entry.order_car
+    order['state'] = entry.order_status
+    
+    return render(request , "order.html", order)
+
+# 缺 transaction id
+def TransactionManager(request):
+    transaction = {}
+    transaction['test_range'] = range(Transaction.objects.count())
+    entry = Order.objects.get(id=1)
+    transaction['trans_ID'] = entry.unlock_code
+
+    
+    return render(request , "transaction.html", transaction)
