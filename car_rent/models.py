@@ -13,15 +13,15 @@ class User(models.Model):
     birthday = models.DateField()
 
     SEX = (
-        ('m', 'Male'),
-        ('f', 'Female'),
-        ('n', 'None'),
+        ('男', 'Male'),
+        ('女', 'Female'),
+        ('無', 'None'),
     )
 
     sex = models.CharField(
         max_length=1,
         choices=SEX,
-        default='m',
+        default='男',
     )
     telephone = models.CharField(max_length=10)
     address = models.CharField(max_length=100)
@@ -42,15 +42,15 @@ class CarType(models.Model):
 
 class Car(models.Model):
     st = (
-        ('n', '正常'),
-        ('r', '已預訂'),
-        ('l', '借出中'),
-        ('m', '維修中'),
+        ('正常', '正常'),
+        ('已預訂', '已預訂'),
+        ('借出中', '借出中'),
+        ('維修中', '維修中'),
     )
     status = models.CharField(
         max_length=10,
         choices=st,
-        default='n',
+        default='正常',
     )
     production_time = models.DateField()
     manufacturer = models.CharField(max_length=20)
@@ -85,13 +85,13 @@ class Order(models.Model):
     order_car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)  # 車輛資訊
 
     order_st = (
-        ('p', '未付款'),
-        ('np', '已付款'),
+        ('未付款', '未付款'),
+        ('已付款', '已付款'),
     )
     order_status = models.CharField(
         max_length=10,
         choices=order_st,
-        default='np',
+        default='未付款',
     )
 
     def __str__(self):

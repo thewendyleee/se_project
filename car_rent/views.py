@@ -105,5 +105,8 @@ def TransactionManager(request):
     entry = Order.objects.get(id=1)
     transaction['trans_ID'] = entry.unlock_code
 
-    
     return render(request , "transaction.html", transaction)
+
+def TransDetailManager(request):
+    transdetail = {}
+    
