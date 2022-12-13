@@ -71,8 +71,26 @@ def login(request):
     return render(request, "login.html")
 
 
+#def register(request):
+#    return render(request, "register.html")
+
 def register(request):
+    try:
+        useid = request.GET['userid']
+        account = request.GET['account']
+        pwd = request.GET['pwd']
+        date = request.GET['date']
+        phone = request.GET['phone']
+        address = request.GET['address']
+        inputsex = request.GET['input_sex']
+    except:
+        useid =None
+    if useid != None:
+        items = User.objects.create( user_name=useid, account=account, password=pwd,telephone=phone, address=address
+                                ,birthday=date, sex=inputsex)
+        items.save()
     return render(request, "register.html")
+
 
 
 def UserManager(request):
