@@ -21,14 +21,18 @@
     </style>
 </head>
 <body>
-    
+
 <!base加入跑馬燈>
-<font size=4><b><Marquee bgcolor="yellow"behavior="scroll" direction="left" scrollamount="5">
-   <img src="http://o.cztvcloud.com/241/posts/2020/04/23/e8440910c21a8f620972db464ecfd8cb.jpg" width="40" height="20" valign="middle">
-   歡迎使用中央大學租車系統
-   <img src="http://o.cztvcloud.com/241/posts/2020/04/23/e8440910c21a8f620972db464ecfd8cb.jpg" width="40" height="20" valign="middle"></Marquee></b>
-</font>   
-    
+<font size=4><b>
+    <Marquee bgcolor="yellow" behavior="scroll" direction="left" scrollamount="5">
+        <img src="http://o.cztvcloud.com/241/posts/2020/04/23/e8440910c21a8f620972db464ecfd8cb.jpg" width="40"
+             height="20" valign="middle">
+        歡迎使用中央大學租車系統
+        <img src="http://o.cztvcloud.com/241/posts/2020/04/23/e8440910c21a8f620972db464ecfd8cb.jpg" width="40"
+             height="20" valign="middle"></Marquee>
+</b>
+</font>
+
 {% load static %}
 <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -41,14 +45,22 @@
         {% comment %} 以下button使用IP:127.0.0.1 不確定是否會造成問題{% endcomment %}
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/rent/'">租借車</button>
-            <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/report/'">車輛報修</button>
-            <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/order/'">查看訂單</button>
-            <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/transaction/'">交易紀錄</button>
-            <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/personal_info/'">個人資料</button>
+            <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/report/'">車輛報修
+            </button>
+            <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/order/'">查看訂單
+            </button>
+            <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/transaction/'">
+                交易紀錄
+            </button>
+            <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/personal_info/'">
+                個人資料
+            </button>
         </ul>
-
-        <div class="col-md-3 text-end">
-            <a type="button" class="btn btn-outline-primary me-2" href="../login" role="button">Logout</a>
+        <div class="col-1 text-end">
+            Hello {{ user_name }}
+        </div>
+        <div class="col-md-1 text-end">
+            <a type="button" class="btn btn-outline-primary me-2" href="../login" role="button">登出</a>
             {% comment %} <a type="button" class="btn btn-primary" href="../register" role="button">Sign-up</a> {% endcomment %}
         </div>
     </header>

@@ -20,16 +20,17 @@
         </div>
         <div class="col-5" style="margin: auto;text-align: center;">
             <div class="m-4" >
-                <form class="needs-validation" action="" method="post" novalidate>
+                <form class="needs-validation" action="/login/" method="post" novalidate>
+                    {% csrf_token %}
                     <h2 class="m-4">歡迎使用中央租車系統</h2>
                     <div class="mb-3" style="text-align: left">
                         <label for="account" class="form-label">請輸入帳號</label>
-                        <input type="text" class="form-control" id="account" placeholder="範例:111423111" required>
+                        <input type="text" class="form-control" id="account" name="account" placeholder="範例:111423111" required>
                         <div class="invalid-feedback">必填</div>
                     </div>
                     <div class="mb-3" style="text-align: left">
                         <label for="pwd" class="form-label">請輸入密碼</label>
-                        <input type="password" id="pwd" class="form-control"  required>
+                        <input type="password" class="form-control" id="pwd" name="pwd" required>
                         <div class="invalid-feedback">必填</div>
                     </div>
                     <div class="row">
@@ -40,16 +41,16 @@
                             <a href="">忘記密碼？</a>
                         </div>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                               value="option1" required>
-                        <label class="form-check-label" for="inlineRadio1">會員</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                               value="option2">
-                        <label class="form-check-label" for="inlineRadio2">管理者</label>
-                    </div>
+{#                    <div class="form-check form-check-inline">#}
+{#                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"#}
+{#                               value="option1" required>#}
+{#                        <label class="form-check-label" for="inlineRadio1">會員</label>#}
+{#                    </div>#}
+{#                    <div class="form-check form-check-inline">#}
+{#                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"#}
+{#                               value="option2">#}
+{#                        <label class="form-check-label" for="inlineRadio2">管理者</label>#}
+{#                    </div>#}
 
                     <div class="d-grid gap-2 mt-3">
                         <button type="submit" class="btn btn-lg btn-success">登入</button>

@@ -1,5 +1,9 @@
-from django.shortcuts import render
+from django.contrib import auth
+from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from .models import *
+
 
 # Create your views here.
 
@@ -8,8 +12,10 @@ def rent(request):
     num_bike = 4
     num_scooter = 5
     return render(request, "rent.html", {
-        'num_bike': num_bike ,
-        'num_scooter': num_scooter})
+        'num_bike': num_bike,
+        'num_scooter': num_scooter,
+        'user_name': request.session.get('user_name')
+            })
 
 
 def report(request):
@@ -19,7 +25,7 @@ def report(request):
 # 欣瑩
 def transaction(request):
     test_range = range(3)
-    return render(request, "transaction.html",{'test_range':test_range})
+    return render(request, "transaction.html", {'test_range': test_range})
 
 
 def transaction_detail(request):
@@ -67,8 +73,19 @@ def personal_info_update(request):
 
 # 賢灝
 def login(request):
-    
-    return render(request, "login.html")
+    if request.method == 'POST':
+        acc = request.POST.get('account', False)
+        password = request.POST.get('pwd', False)
+        user_val = User.objects.filter(account=acc).values()
+        if acc == user_val[0]['account'] and password == user_val[0]['password']: # 判斷此帳號密碼是否正確
+            # return HttpResponse('Welcome!~'+user_val[0]['user_name']) 測試用
+            request.session['user_name'] = user_val[0]['user_name']
+            return redirect('/rent')
+        else:
+            return HttpResponse('error!~'+user_val[0]['user_name'])
+    else:
+        return render(request, 'login.html')
+
 
 
 def register(request):
@@ -85,8 +102,9 @@ def UserManager(request):
     user['birth'] = entry.birthday
     user['address'] = entry.address
     user['tel_number'] = entry.telephone
-    
-    return render(request , "personal_info_v2.html", user)
+
+    return render(request, "personal_info_v2.html", user)
+
 
 def OrderManager(request):
     order = {}
@@ -96,8 +114,9 @@ def OrderManager(request):
     order['Place'] = entry.order_station
     order['CarN'] = entry.order_car
     order['state'] = entry.order_status
-    
-    return render(request , "order.html", order)
+
+    return render(request, "order.html", order)
+
 
 # 缺 transaction id
 def TransactionManager(request):
@@ -106,12 +125,13 @@ def TransactionManager(request):
     entry = Order.objects.get(id=1)
     transaction['trans_ID'] = entry.unlock_code
 
-    return render(request , "transaction.html", transaction)
+    return render(request, "transaction.html", transaction)
+
 
 def TransDetailManager(request):
     transdetail = {}
-    entry_Order = Order.objects.get(id=1) #transaction 缺乏id 目前占用order id
-    entry = Transaction.objects.get(id=1) #這裡id應該要跟著前一頁選擇的id 而定
+    entry_Order = Order.objects.get(id=1)  # transaction 缺乏id 目前占用order id
+    entry = Transaction.objects.get(id=1)  # 這裡id應該要跟著前一頁選擇的id 而定
     transdetail['trans_id'] = entry.transaction_id
     transdetail['get_time'] = entry.pick_up_car_time
     transdetail['return_time'] = entry.return_car_time
@@ -120,4 +140,3 @@ def TransDetailManager(request):
     transdetail['price'] = entry.pay
 
     return render(request, "transaction_detail.html", transdetail)
-    
