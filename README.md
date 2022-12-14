@@ -8,7 +8,6 @@
 
 # se_project
 
-testtest
 
 ```sh
 git branch <new function>
@@ -29,4 +28,3 @@ git pull
 git pull --rebase # 避免在合併時產生其他commit
 ```
 
-test...

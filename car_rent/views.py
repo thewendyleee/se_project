@@ -169,20 +169,22 @@ def TransactionManager(request):
     return render(request, "transaction.html", transaction)
 
 
-def TransDetailManager(request):
+def TransDetailManager(request, trans_id):
     transdetail = {}
-    # entry_Order = Order.objects.get(id=1) #transaction 缺乏id 目前占用order id
-    # entry = Transaction.objects.filter() #這裡id應該要跟著前一頁選擇的id 而定
-    # entry = request[0]
+    # -----------test----------
     # 須想辦法從transaction.html 取得點擊的trans編號，傳給transdetailManager #############
-    data = request.POST.get('12')
+    # data = str(request)
     # data = request.json()
-    print(data, "*************")
-    transdetail['trans_id'] = request
-    # transdetail['get_time'] = entry.pick_up_car_time
-    # transdetail['return_time'] = entry.return_car_time
-    # transdetail['viechle_id'] = entry.transaction_car
-    # transdetail['station'] = entry.transaction_station
-    # transdetail['price'] = entry.pay
+    # print(data,"*************")
+    # transdetail['trans_id'] = trans_id
+    # -------------------------
+
+    entry = Transaction.objects.get(transaction_id=trans_id)
+    transdetail['trans_id'] = entry.transaction_id
+    transdetail['get_time'] = entry.pick_up_car_time
+    transdetail['return_time'] = entry.return_car_time
+    transdetail['vehicle_id'] = entry.transaction_car
+    transdetail['station'] = entry.transaction_station
+    transdetail['price'] = entry.pay
 
     return render(request, "transaction_detail.html", transdetail)
