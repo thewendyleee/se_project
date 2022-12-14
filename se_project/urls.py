@@ -23,7 +23,7 @@ urlpatterns = [
     path('rent/', rent),
     path('report/', report),
     path('transaction/',TransactionManager),
-    path('transaction_detail/',TransDetailManager),
+    path('transaction_detail/<str:trans_id>/',TransDetailManager),
     path('order/',OrderManager),
     path('return_car/',return_car),
     path('personal_info/',UserManager),
