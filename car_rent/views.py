@@ -112,7 +112,7 @@ def register(request):
         items = User.objects.create( user_name = useid, account=account, password=pwd,telephone=phone, address=address, birthday=date, sex=inputsex)
         items.save()
         return HttpResponseRedirect('http://127.0.0.1:8000/login/')
-    return render(request, "register.html",verified)
+    return render(request, "register.html")
 
 
 def UserManager(request):
