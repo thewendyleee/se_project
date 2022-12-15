@@ -57,7 +57,7 @@
             </button>
         </ul>
         <div class="col-1 text-end">
-            Hello {{ user_name }}
+            Hello {{ request.user.user_name }}
         </div>
         <div class="col-md-1 text-end">
             <a type="button" class="btn btn-outline-primary me-2" href="../login" role="button">登出</a>
