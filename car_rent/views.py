@@ -80,6 +80,7 @@ def login(request):
         if acc == user_val[0]['account'] and password == user_val[0]['password']: # 判斷此帳號密碼是否正確
             # return HttpResponse('Welcome!~'+user_val[0]['user_name']) 測試用
             request.session['user_name'] = user_val[0]['user_name']
+            request.session['user_id'] = user_val[0]['id']  # get user's id
             return redirect('/rent')
         else:
             return HttpResponse('error!~'+user_val[0]['user_name'])
@@ -112,8 +113,9 @@ def register(request):
 
 def UserManager(request):
     user = {}
-    # 需要設置綁定登入者的機制 #############
-    entry = User.objects.get(id=1)
+    user_id = request.session['user_id']
+    # 綁定登入者的機制 #############
+    entry = User.objects.get(id=user_id)
     user['account'] = entry.account
     user['password'] = entry.password
     user['name'] = entry.user_name
@@ -154,9 +156,9 @@ def TransactionManager(request):
     transaction = {}
     data = []
     user_id = request.session['user_id']
-    entry = Transaction.objects.filter(user_id=user_id)
-    entry = Transaction.objects.all()
-    # entry 需要加上搜尋指定資料的機制 ##############
+    entry = Transaction.objects.filter(transaction_user=user_id)
+    # entry = Transaction.objects.all()  # 測試用
+    # 綁定指定資料的機制 ##############
 
     for i in range(len(list(entry))):
         data.append(str(list(entry)[i].transaction_id))  
@@ -168,14 +170,7 @@ def TransactionManager(request):
 
 def TransDetailManager(request,trans_id):
     transdetail = {}
-    #-----------test----------
-    # 須想辦法從transaction.html 取得點擊的trans編號，傳給transdetailManager #############
-    # data = str(request)
-    # data = request.json()
-    # print(data,"*************")
-    # transdetail['trans_id'] = trans_id
-    #-------------------------
-
+    
     entry = Transaction.objects.get(transaction_id=trans_id)
     transdetail['trans_id'] = entry.transaction_id
     transdetail['get_time'] = entry.pick_up_car_time
