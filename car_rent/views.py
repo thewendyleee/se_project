@@ -11,6 +11,7 @@ from .models import *
 def rent(request):
     num_bike = 4
     num_scooter = 5
+    print(request.user.username)
     return render(request, "rent.html", {
         'num_bike': num_bike,
         'num_scooter': num_scooter,
