@@ -9,23 +9,23 @@ from .models import *
 
 # 育慈 
 def rent(request):
-    num_bike = 4
-    num_scooter = 5
-    return render(request, "rent.html", {
-        'num_bike': num_bike,
-        'num_scooter': num_scooter,
-        'user_name': request.session.get('user_name')
-    })
+    rent_context = {}
+    rent_context['num_bike'] = 4
+    rent_context['num_scooter'] = 5
+    rent_context['user_name'] = request.session.get('user_name')
+    return render(request, "rent.html", rent_context)
 
 
 def report(request):
-    return render(request, "report.html")
+    report_context = {}
+    report_context['user_name'] = request.session.get('user_name')
+    return render(request, "report.html", report_context)
 
 
 # 欣瑩
 def transaction(request):
     test_range = range(3)
-    return render(request, "transaction.html", {'test_range': test_range})
+    return render(request, "transaction.html", {'test_range': test_range,})
 
 
 def transaction_detail(request):
@@ -131,6 +131,7 @@ def UserManager(request):
     user['birth'] = entry.birthday
     user['address'] = entry.address
     user['tel_number'] = entry.telephone
+    user['user_name'] = request.session.get('user_name')
 
     return render(request, "personal_info_v2.html", user)
 
@@ -145,6 +146,7 @@ def UserUpdateManager(request):
     user['birth'] = entry.birthday
     user['address'] = entry.address
     user['tel_number'] = entry.telephone
+    user['user_name'] = request.session.get('user_name')
 
     return render(request, "personal_info_update_v2.html", user)
 
@@ -157,6 +159,7 @@ def OrderManager(request):
     order['Place'] = entry.order_station
     order['CarN'] = entry.order_car
     order['state'] = entry.order_status
+    order['user_name'] = request.session.get('user_name')
 
     return render(request, "order.html", order)
 
@@ -173,7 +176,7 @@ def TransactionManager(request):
         data.append(str(list(entry)[i].transaction_id))
 
     transaction['trans_ID'] = data
-
+    transaction['user_name'] = request.session.get('user_name')
     return render(request, "transaction.html", transaction)
 
 
@@ -187,5 +190,6 @@ def TransDetailManager(request, trans_id):
     transdetail['vehicle_id'] = entry.transaction_car
     transdetail['station'] = entry.transaction_station
     transdetail['price'] = entry.pay
+    transdetail['user_name'] = request.session.get('user_name')
 
     return render(request, "transaction_detail.html", transdetail)
