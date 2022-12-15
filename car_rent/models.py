@@ -28,7 +28,7 @@ class User(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return self.user_name
+        return str(self.id)
 
 
 class CarType(models.Model):
