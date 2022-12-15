@@ -11,11 +11,10 @@ class User(models.Model):
     account = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=50)
     birthday = models.DateField()
-
     SEX = (
-        ('男', 'Male'),
-        ('女', 'Female'),
-        ('無', 'None'),
+        ('m', 'Male'),
+        ('f', 'Female'),
+        ('n', 'None'),
     )
 
     sex = models.CharField(
@@ -28,7 +27,7 @@ class User(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return self.user_name
+        return str(self.id)
 
 
 class CarType(models.Model):
