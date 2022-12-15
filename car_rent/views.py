@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.http import HttpResponseRedirect
 
+
 # Create your views here.
 
 # 育慈 
@@ -82,6 +83,7 @@ def login(request):
             if acc == user_val[0]['account'] and password == user_val[0]['password']:  # 判斷此帳號密碼是否正確
                 # return HttpResponse('Welcome!~'+user_val[0]['user_name']) 測試用
                 request.session['user_name'] = user_val[0]['user_name']
+                request.session['user_id'] = user_val[0]['id']  # get user's id
                 return redirect('/rent')
             else:
                 messages.success(request, "密碼錯誤")
@@ -110,7 +112,8 @@ def register(request):
     else:
         useid = None
     if useid != None:
-        items = User.objects.create( user_name = useid, account=account, password=pwd,telephone=phone, address=address, birthday=date, sex=inputsex)
+        items = User.objects.create(user_name=useid, account=account, password=pwd, telephone=phone, address=address,
+                                    birthday=date, sex=inputsex)
         items.save()
         return HttpResponseRedirect('http://127.0.0.1:8000/login/')
     return render(request, "register.html")
