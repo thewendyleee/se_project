@@ -1,4 +1,4 @@
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -15,7 +15,7 @@ def rent(request):
         'num_bike': num_bike,
         'num_scooter': num_scooter,
         'user_name': request.session.get('user_name')
-            })
+    })
 
 
 def report(request):
@@ -76,20 +76,24 @@ def login(request):
     if request.method == 'POST':
         acc = request.POST.get('account', False)
         password = request.POST.get('pwd', False)
-        user_val = User.objects.filter(account=acc).values()
-        if acc == user_val[0]['account'] and password == user_val[0]['password']: # 判斷此帳號密碼是否正確
-            # return HttpResponse('Welcome!~'+user_val[0]['user_name']) 測試用
-            request.session['user_name'] = user_val[0]['user_name']
-            request.session['user_id'] = user_val[0]['id']  # get user's id
-            return redirect('/rent')
-        else:
-            return HttpResponse('error!~'+user_val[0]['user_name'])
+        try:
+            user_val = User.objects.filter(account=acc).values()
+            if acc == user_val[0]['account'] and password == user_val[0]['password']:  # 判斷此帳號密碼是否正確
+                # return HttpResponse('Welcome!~'+user_val[0]['user_name']) 測試用
+                request.session['user_name'] = user_val[0]['user_name']
+                request.session['user_id'] = user_val[0]['id']  # get user's id
+                return redirect('/rent')
+            else:
+                messages.success(request, "密碼錯誤")
+                return redirect('/login')
+        except:
+            messages.success(request, "帳號錯誤！")
+            return redirect('/login')
     else:
         return render(request, 'login.html')
 
 
-
-#def register(request):
+# def register(request):
 #    return render(request, "register.html")
 
 def register(request):
@@ -102,13 +106,12 @@ def register(request):
         address = request.GET['address']
         inputsex = request.GET['input_sex']
     except:
-        useid =None
+        useid = None
     if useid != None:
-        items = User.objects.create( user_name=useid, account=account, password=pwd,telephone=phone, address=address
-                                ,birthday=date, sex=inputsex)
+        items = User.objects.create(user_name=useid, account=account, password=pwd, telephone=phone, address=address
+                                    , birthday=date, sex=inputsex)
         items.save()
     return render(request, "register.html")
-
 
 
 def UserManager(request):
@@ -137,8 +140,9 @@ def UserUpdateManager(request):
     user['birth'] = entry.birthday
     user['address'] = entry.address
     user['tel_number'] = entry.telephone
-    
-    return render(request , "personal_info_update_v2.html", user)
+
+    return render(request, "personal_info_update_v2.html", user)
+
 
 def OrderManager(request):
     order = {}
@@ -161,16 +165,16 @@ def TransactionManager(request):
     # 綁定指定資料的機制 ##############
 
     for i in range(len(list(entry))):
-        data.append(str(list(entry)[i].transaction_id))  
+        data.append(str(list(entry)[i].transaction_id))
 
     transaction['trans_ID'] = data
 
     return render(request, "transaction.html", transaction)
 
 
-def TransDetailManager(request,trans_id):
+def TransDetailManager(request, trans_id):
     transdetail = {}
-    
+
     entry = Transaction.objects.get(transaction_id=trans_id)
     transdetail['trans_id'] = entry.transaction_id
     transdetail['get_time'] = entry.pick_up_car_time
@@ -180,5 +184,3 @@ def TransDetailManager(request,trans_id):
     transdetail['price'] = entry.pay
 
     return render(request, "transaction_detail.html", transdetail)
-    
-
