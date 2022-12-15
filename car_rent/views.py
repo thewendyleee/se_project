@@ -67,8 +67,8 @@ def return_car(request):
 #     return render(request, "personal_info_v2.html", personal_info)
 
 
-def personal_info_update(request):
-    return render(request, "personal_info_update_v2.html")
+# def personal_info_update(request):
+#     return render(request, "personal_info_update_v2.html")
 
 
 # 賢灝
@@ -153,6 +153,8 @@ def OrderManager(request):
 def TransactionManager(request):
     transaction = {}
     data = []
+    user_id = request.session['user_id']
+    entry = Transaction.objects.filter(user_id=user_id)
     entry = Transaction.objects.all()
     # entry 需要加上搜尋指定資料的機制 ##############
 
