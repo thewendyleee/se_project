@@ -102,20 +102,21 @@ def logout(request):
 #    return render(request, "register.html")
 
 def register(request):
-    try:
-        useid = request.GET['userid']
-        account = request.GET['account']
-        pwd = request.GET['pwd']
-        date = request.GET['date']
-        phone = request.GET['phone']
-        address = request.GET['address']
-        inputsex = request.GET['input_sex']
-    except:
+    if request.method == 'POST':
+        if request.POST:
+            useid = request.POST.get('userid')
+            account = request.POST.get('account')
+            pwd = request.POST.get('pwd')
+            date = request.POST.get('date')
+            phone = request.POST.get('phone')
+            address = request.POST.get('address')
+            inputsex = request.POST.get('input_sex')
+    else:
         useid = None
     if useid != None:
-        items = User.objects.create(user_name=useid, account=account, password=pwd, telephone=phone, address=address
-                                    , birthday=date, sex=inputsex)
+        items = User.objects.create( user_name = useid, account=account, password=pwd,telephone=phone, address=address, birthday=date, sex=inputsex)
         items.save()
+        return HttpResponseRedirect('http://127.0.0.1:8000/login/')
     return render(request, "register.html")
 
 
