@@ -93,6 +93,11 @@ def login(request):
         return render(request, 'login.html')
 
 
+def logout(request):
+    request.session.flush()
+    messages.success(request, "登出成功！")
+    return redirect('/login')
+
 # def register(request):
 #    return render(request, "register.html")
 

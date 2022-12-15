@@ -30,4 +30,5 @@ urlpatterns = [
     path('personal_info_update/',UserUpdateManager),
     path('login/',login),
     path('register/',register),
+    path('logout/', logout),
 ]

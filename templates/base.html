@@ -60,7 +60,8 @@
             Hello {{ user_name }}
         </div>
         <div class="col-md-1 text-end">
-            <a type="button" class="btn btn-outline-primary me-2" href="../login" role="button">登出</a>
+            <a type="button" class="btn btn-outline-primary me-2" onclick="location.href='/logout/'"
+               role="button">登出</a>
             {% comment %} <a type="button" class="btn btn-primary" href="../register" role="button">Sign-up</a> {% endcomment %}
         </div>
     </header>
@@ -79,7 +80,13 @@
 
 
 </div>
-
+{% if messages %}
+    <script>
+        {% for msg in messages %}
+            alert('{{ msg.message }}')
+        {% endfor %}
+    </script>
+{% endif %}
 
 </body>
 </html>
