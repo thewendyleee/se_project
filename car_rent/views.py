@@ -9,11 +9,28 @@ from .models import *
 
 # 育慈 
 def rent(request):
-    rent_context = {}
-    rent_context['num_bike'] = 4
-    rent_context['num_scooter'] = 5
-    rent_context['user_name'] = request.session.get('user_name')
-    return render(request, "rent.html", rent_context)
+    getstationN = "中大湖"
+    #所有車
+    AllCar = Car.objects.all()
+    #可使用車數量
+    rentoutCN =Car.objects.filter(status="正常").count()
+    #站點可使用
+    bike =0;
+    motorcycle =0;
+    for i in range(rentoutCN):
+        if (str(AllCar[i].locate_station)==getstationN):
+            if (str(AllCar[i].car_type)=="Bike"):
+                bike = bike+1;
+            if (str(AllCar[i].car_type)=="motorcycle"):
+                motorcycle = motorcycle+1
+    num_bike = bike
+    num_scooter = motorcycle
+
+    return render(request, "rent.html", {
+        'num_bike': num_bike,
+        'num_scooter': num_scooter,
+        'user_name': request.session.get('user_name')
+    })
 
 
 def report(request):
