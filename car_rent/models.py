@@ -57,13 +57,14 @@ class Car(models.Model):
     car_type = models.ForeignKey('CarType', on_delete=models.SET_NULL, null=True)
     locate_station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True, blank=True)
 
-    def get_absolute_url(self):
-        """Returns the url to access a detail record for this book."""
-        return reverse('car-detail', args=[str(self.id)])
+    #def get_absolute_url(self):
+    #    """Returns the url to access a detail record for this book."""
+    #    return reverse('car-detail', args=[str(self.id)])
 
     def __str__(self):
         """String for representing the Model object."""
-        return str(self.id) + "(" + str(self.car_type) + ")"
+        return str(self.locate_station) + str(self.car_type)
+        #return str(self.id) + "(" + str(self.car_type) + ")"
 
 
 class Station(models.Model):
