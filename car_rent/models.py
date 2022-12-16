@@ -12,15 +12,15 @@ class User(models.Model):
     password = models.CharField(max_length=50)
     birthday = models.DateField()
     SEX = (
-        ('男', '男'),
-        ('女', '女'),
-        ('其他', '其他'),
+        ("男", "男生"),
+        ("女", "女生"),
+        ("其他", "其他"),
     )
 
     sex = models.CharField(
-        max_length=2,
+        max_length=8,
         choices=SEX,
-        default='男',
+        default="其他",
     )
     telephone = models.CharField(max_length=10)
     address = models.CharField(max_length=100)
