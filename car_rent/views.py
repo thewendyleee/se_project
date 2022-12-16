@@ -9,6 +9,7 @@ from .models import *
 
 # 育慈 
 def rent(request):
+    rent_context = {}
     getstationN = "中大湖"
     #所有車
     AllCar = Car.objects.all()
@@ -27,14 +28,11 @@ def rent(request):
                 motorcycle = motorcycle+1
     print(bike)
     print(motorcycle)
-    num_bike = bike
-    num_scooter = motorcycle
+    rent_context['num_bike'] = bike
+    rent_context['num_scooter'] = motorcycle
+    rent_context['user_name'] = request.session.get('user_name')
 
-    return render(request, "rent.html", {
-        'num_bike': num_bike,
-        'num_scooter': num_scooter,
-        'user_name': request.session.get('user_name')
-    })
+    return render(request, "rent.html", rent_context)
 
 
 def report(request):
