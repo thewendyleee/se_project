@@ -12,17 +12,21 @@ def rent(request):
     getstationN = "中大湖"
     #所有車
     AllCar = Car.objects.all()
-    #可使用車數量
-    rentoutCN =Car.objects.filter(status="正常").count()
+    #所有車數量
+    AllCarN =Car.objects.all().count()
+
     #站點可使用
     bike =0;
     motorcycle =0;
-    for i in range(rentoutCN):
-        if (str(AllCar[i].locate_station)==getstationN):
+    for i in range(AllCarN):
+        if (str(AllCar[i].locate_station)==getstationN and str(AllCar[i].status)=="正常"):
+            print(AllCar[i])
             if (str(AllCar[i].car_type)=="Bike"):
                 bike = bike+1;
             if (str(AllCar[i].car_type)=="motorcycle"):
                 motorcycle = motorcycle+1
+    print(bike)
+    print(motorcycle)
     num_bike = bike
     num_scooter = motorcycle
 
