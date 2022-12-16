@@ -63,8 +63,8 @@ class Car(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return str(self.locate_station) + str(self.car_type)
-        #return str(self.id) + "(" + str(self.car_type) + ")"
+        #return str(self.locate_station) + str(self.car_type)
+        return str(self.id) + "(" + str(self.car_type) + ")"
 
 
 class Station(models.Model):
