@@ -10,6 +10,8 @@
 
 {% block mainBody %}
 <center>
+  <form action="/upload" method="POST">
+    {% csrf_token %}
   <div class="col">
       <li class="list-item m-4">帳號:  &nbsp&nbsp&nbsp&nbsp<input name="account" type="text" class="Radius" value={{account}}></li>
       <li class="list-item m-4">密碼:  &nbsp&nbsp&nbsp&nbsp<input name="password" type="text" class="Radius" value={{password}}></li>
@@ -21,9 +23,11 @@
   </div>
 
   <div class="position-absolute start-50 mt-5 translate-middle">
-    <button type="button" class="btn btn-secondary btn-word me-5"> 確認</button>
-    <button type="button" class="btn btn-secondary btn-word me-5" onclick="location.href='/personal_info'"> 取消</button>
+    <input type="submit" class="btn btn-secondary btn-word me-5"  value="確認">
+    <input type="button" class="btn btn-secondary btn-word me-5" onclick="location.href='/personal_info'" value="取消">
   </div>
+
+</form>
 
   <script>
 
