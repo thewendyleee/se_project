@@ -1,5 +1,5 @@
 from django.contrib import auth, messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
@@ -11,21 +11,21 @@ from .models import *
 def rent(request):
     rent_context = {}
     getstationN = "中大湖"
-    #所有車
+    # 所有車
     AllCar = Car.objects.all()
-    #所有車數量
-    AllCarN =Car.objects.all().count()
+    # 所有車數量
+    AllCarN = Car.objects.all().count()
 
-    #站點可使用
-    bike =0;
-    motorcycle =0;
+    # 站點可使用
+    bike = 0;
+    motorcycle = 0;
     for i in range(AllCarN):
-        if (str(AllCar[i].locate_station)==getstationN and str(AllCar[i].status)=="正常"):
+        if (str(AllCar[i].locate_station) == getstationN and str(AllCar[i].status) == "正常"):
             print(AllCar[i])
-            if (str(AllCar[i].car_type)=="Bike"):
-                bike = bike+1;
-            if (str(AllCar[i].car_type)=="motorcycle"):
-                motorcycle = motorcycle+1
+            if (str(AllCar[i].car_type) == "Bike"):
+                bike = bike + 1;
+            if (str(AllCar[i].car_type) == "motorcycle"):
+                motorcycle = motorcycle + 1
     print(bike)
     print(motorcycle)
     rent_context['num_bike'] = bike
@@ -44,7 +44,7 @@ def report(request):
 # 欣瑩
 def transaction(request):
     test_range = range(3)
-    return render(request, "transaction.html", {'test_range': test_range,})
+    return render(request, "transaction.html", {'test_range': test_range, })
 
 
 def transaction_detail(request):
@@ -117,6 +117,7 @@ def logout(request):
     messages.success(request, "登出成功！")
     return redirect('/login')
 
+
 # def register(request):
 #    return render(request, "register.html")
 
@@ -133,10 +134,26 @@ def register(request):
     else:
         useid = None
     if useid != None:
-        items = User.objects.create( user_name = useid, account=account, password=pwd,telephone=phone, address=address, birthday=date, sex=inputsex)
+        items = User.objects.create(user_name=useid, account=account, password=pwd, telephone=phone, address=address,
+                                    birthday=date, sex=inputsex)
         items.save()
         return redirect('/login/')
     return render(request, "register.html")
+
+
+def register_check(request):
+    res = {"code": 2000, "msg": ""}
+    acc = request.GET.get("account")
+    if acc:
+        user = User.objects.filter(account=acc).first()
+        if user:
+            res = {"code": 2000, "msg": "此帳號已存在"}
+        # else:
+        #     res = {"code": 2001, "msg": ""}
+    # else:
+    #     res = {"code": 2002, "msg": "请输入用户名"}
+    return JsonResponse(res)
+
 
 # 使用者資訊頁面呈現
 def UserManager(request):
@@ -155,6 +172,7 @@ def UserManager(request):
 
     return render(request, "personal_info_v2.html", user)
 
+
 # 使用者剛進入修改頁面時，最初的初始值呈現
 def UserUpdateManager(request):
     user = {}
@@ -166,7 +184,7 @@ def UserUpdateManager(request):
     user['password'] = entry.password
     user['name'] = entry.user_name
     user['gender'] = entry.sex
-    user['birth'] = entry.birthday.strftime('%Y-%m-%d')  #日期型<input>，須接受指定格式的日期資料，不接受單純從DB回傳的datetime型別
+    user['birth'] = entry.birthday.strftime('%Y-%m-%d')  # 日期型<input>，須接受指定格式的日期資料，不接受單純從DB回傳的datetime型別
     user['address'] = entry.address
     user['tel_number'] = entry.telephone
     user['user_name'] = request.session.get('user_name')
@@ -178,7 +196,7 @@ def UserUpdateManager(request):
 
 # 使用者資訊修改頁面，把資料更新至資料庫，並返回至使用者資訊頁面
 def UserUploadManager(request):
-    user ={}
+    user = {}
     user_id = request.session['user_id']
     # 綁定登入者的機制 #############
     entry = User.objects.get(id=user_id)
@@ -190,7 +208,7 @@ def UserUploadManager(request):
     entry.birthday = request.POST['birth']
     entry.address = request.POST['address']
     entry.telephone = request.POST['tel_number']
-    
+
     entry.save()
 
     # --------更新完user資訊後，跳回個人資訊頁面，需重新帶入template tags------
@@ -201,7 +219,7 @@ def UserUploadManager(request):
     user['birth'] = entry.birthday
     user['address'] = entry.address
     user['tel_number'] = entry.telephone
-    user['user_name'] = entry.user_name  #導覽列上的 user_name
+    user['user_name'] = entry.user_name  # 導覽列上的 user_name
     print("upload work ************")
 
     return render(request, "personal_info_v2.html", user)

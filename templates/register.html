@@ -41,6 +41,7 @@
                         <label for="account" class="form-label">請輸入帳號</label>
                         <input type="text" class="form-control" id="account" name="account" placeholder="範例:111423111" required>
                         <div class="invalid-feedback">必填</div>
+                        <span id="msguser" style="color: red"></span>
                     </div>
                     <div class="mb-3" style="text-align: left">
                         <label for="pwd" class="form-label">請輸入密碼</label>
@@ -77,7 +78,7 @@
                     </div>
 
                     <div class="d-grid gap-2 mt-3">
-                        <button type="submit" class="btn btn-lg btn-success">送出</button>
+                        <button type="submit" class="btn btn-lg btn-success" id="submit">送出</button>
                     </div>
                     <div class="m-lg-5">
                         {% load static %}
@@ -107,6 +108,32 @@
     });
   }, false);
 })();
+
+
+$("#account").blur(
+         function () {
+
+             var account = $("#account").val();
+
+             var url = "/register_check/?account=" + account;
+             $.ajax({
+                 url:url,
+                 type:"get",
+                 {#data:"",  // 请求要发送的数据  常在post请求中使用，get请求只需要拼接请求的url就可以#}
+                 success:function (data) {
+                     console.log(data);
+                     $("#msguser").text(data["msg"]);
+                     if (data["msg"] == '此已帳號存在')
+                         document.getElementById('submit').disabled=true;
+                     else
+                        document.getElementById('submit').disabled=false;
+                 },
+                 error:function (error) {
+
+                 }
+             })
+         }
+     )
 </script>
 
 
