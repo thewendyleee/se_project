@@ -188,6 +188,7 @@ def UserUploadManager(request):
     # entry.birthday = str(request.POST.get('birth',False))  # 未解決
     entry.address = request.POST['address']
     entry.telephone = request.POST['tel_number']
+    
 
     entry.save()
 
@@ -199,6 +200,7 @@ def UserUploadManager(request):
     user['birth'] = entry.birthday
     user['address'] = entry.address
     user['tel_number'] = entry.telephone
+    user['user_name'] = entry.user_name  #導覽列上的 user_name
     print("upload work ************")
 
     return render(request, "personal_info_v2.html", user)
@@ -223,7 +225,7 @@ def TransactionManager(request):
     user_id = request.session['user_id']
     entry = Transaction.objects.filter(transaction_user=user_id)
     # entry = Transaction.objects.all()  # 測試用
-    # 綁定指定資料的機制 ##############
+    # 用登入者ID  綁定指定資料的機制 ##############
 
     for i in range(len(list(entry))):
         data.append(str(list(entry)[i].transaction_id))
@@ -237,6 +239,8 @@ def TransDetailManager(request, trans_id):
     transdetail = {}
 
     entry = Transaction.objects.get(transaction_id=trans_id)
+    # 用URL 綁定指定資料的機制 ##############
+
     transdetail['trans_id'] = entry.transaction_id
     transdetail['get_time'] = entry.pick_up_car_time
     transdetail['return_time'] = entry.return_car_time
