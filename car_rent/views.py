@@ -166,10 +166,12 @@ def UserUpdateManager(request):
     user['password'] = entry.password
     user['name'] = entry.user_name
     user['gender'] = entry.sex
-    user['birth'] = entry.birthday
+    user['birth'] = entry.birthday.strftime('%Y-%m-%d')  #日期型<input>，須接受指定格式的日期資料，不接受單純從DB回傳的datetime型別
     user['address'] = entry.address
     user['tel_number'] = entry.telephone
-    user['user_name'] = request.session.get('user_name') # 這不知道誰加的，不知道有啥用
+    user['user_name'] = request.session.get('user_name')
+
+    # print(type(entry.birthday))  # <class 'datetime.date'> 測試用
 
     return render(request, "personal_info_update_v2.html", user)
 
@@ -185,14 +187,13 @@ def UserUploadManager(request):
     entry.password = request.POST['password']
     entry.user_name = request.POST['name']
     entry.sex = request.POST['gender']
-    # entry.birthday = str(request.POST.get('birth',False))  # 未解決
+    entry.birthday = request.POST['birth']
     entry.address = request.POST['address']
     entry.telephone = request.POST['tel_number']
     
-
     entry.save()
 
-    # --------test------
+    # --------更新完user資訊後，跳回個人資訊頁面，需重新帶入template tags------
     user['account'] = entry.account
     user['password'] = entry.password
     user['name'] = entry.user_name
