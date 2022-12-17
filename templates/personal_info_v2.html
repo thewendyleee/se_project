@@ -3,40 +3,43 @@
     .title-center {
         text-align: center;
     }
-    input.Radius{
-      width: 350px;
-      height: 40px;
-      border-radius:5px;
-      border-style:solid;
-      padding-top:10px;
-      padding-bottom:10px;
-      padding-left:10px;
 
-      -webkit-box-shadow: 0 0px 0.75px rgba(0,0,0,.075);
-      box-shadow: 0 0px 0px rgba(0,0,0,.075);
-      -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-      -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-      transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s
+    input.Radius {
+        width: 350px;
+        height: 40px;
+        border-radius: 5px;
+        border-style: solid;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+
+        -webkit-box-shadow: 0 0px 0.75px rgba(0, 0, 0, .075);
+        box-shadow: 0 0px 0px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
     }
-    input.Radius:focus{
-            border-color: #66afe9;
-            outline: 0;
-            -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-            box-shadow: 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+
+    input.Radius:focus {
+        border-color: #66afe9;
+        outline: 0;
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
     }
 
 
 </style>
 <!box-shadow : x 軸 | y 軸| 模糊半徑 | 擴散距離 | 顏色 | (inset)>
 {% block title %}
-個人資訊
+    個人資訊
 {% endblock title %}
 
 {% block h2title %}
-個人資料
+    個人資料
 {% endblock h2title %}
 
 {% block mainBody %}
+<<<<<<< HEAD
 <center>
     <div class="mb-1 row">
       <label for="Text1" class="col-sm-5 col-form-label">帳號:</label>
@@ -71,13 +74,52 @@
         <div class="col-6 text-end row" id="this is new">
         <div class="col-6 text-end">
                 <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/personal_info_update'">修改</button>
+=======
+    <center>
+        <div class="mb-1 row">
+            <label for="Text1" class="col-sm-5 col-form-label">帳號:</label>
+            <label for="Text1" class="col-sm-5 col-form-label col-3">{{ account }}</label>
+>>>>>>> 434f0ee624bebf212bd3e53467800ba185f56ed3
         </div>
-        <div class="col-6 text-start">
-                <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/rent'">取消</button>
+        <div class="mb-1 row">
+            <label for="Text1" class="col-sm-5 col-form-label">密碼:</label>
+            <label for="Text1" class="col-sm-5 col-form-label col-3">{{ password }}</label>
         </div>
-    </div>
-</center>
+        <div class="mb-1 row">
+            <label for="Text1" class="col-sm-5 col-form-label">姓名:</label>
+            <label for="Text1" class="col-sm-5 col-form-label col-3">{{ name }}</label>
+        </div>
+        <div class="mb-1 row">
+            <label for="Text1" class="col-sm-5 col-form-label">性別:</label>
+            <label for="Text1" class="col-sm-5 col-form-label col-3">{{ gender }}</label>
+        </div>
+        <div class="mb-1 row">
+            <label for="Text1" class="col-sm-5 col-form-label">生日:</label>
+            <label for="Text1" class="col-sm-5 col-form-label col-3">{{ birth }}</label>
+        </div>
+        <div class="mb-1 row">
+            <label for="Text1" class="col-sm-5 col-form-label">住址:</label>
+            <label for="Text1" class="col-sm-5 col-form-label col-3">{{ address }}</label>
+        </div>
+        <div class="mb-1 row">
+            <label for="Text1" class="col-sm-5 col-form-label">電話:</label>
+            <label for="Text1" class="col-sm-5 col-form-label col-3">{{ tel_number }}</label>
+        </div>
 
-<br><br><br><br>
+        <div class="row mb-3">
+{#            <div class="col-6 text-end" id="this is new">#}
+                <div class="col-6 text-end">
+                    <button class="btn btn-outline-success me-2" type="button"
+                            onclick="location.href='/personal_info_update'">修改
+                    </button>
+                </div>
+                <div class="col-6 text-start">
+                    <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/rent'">取消
+                    </button>
+                </div>
+{#            </div>#}
+    </center>
+
+    <br><br><br><br>
 
 {% endblock mainBody %}

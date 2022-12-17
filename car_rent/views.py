@@ -10,9 +10,28 @@ from .models import *
 # 育慈 
 def rent(request):
     rent_context = {}
-    rent_context['num_bike'] = 4
-    rent_context['num_scooter'] = 5
+    getstationN = "中大湖"
+    #所有車
+    AllCar = Car.objects.all()
+    #所有車數量
+    AllCarN =Car.objects.all().count()
+
+    #站點可使用
+    bike =0;
+    motorcycle =0;
+    for i in range(AllCarN):
+        if (str(AllCar[i].locate_station)==getstationN and str(AllCar[i].status)=="正常"):
+            print(AllCar[i])
+            if (str(AllCar[i].car_type)=="Bike"):
+                bike = bike+1;
+            if (str(AllCar[i].car_type)=="motorcycle"):
+                motorcycle = motorcycle+1
+    print(bike)
+    print(motorcycle)
+    rent_context['num_bike'] = bike
+    rent_context['num_scooter'] = motorcycle
     rent_context['user_name'] = request.session.get('user_name')
+
     return render(request, "rent.html", rent_context)
 
 
@@ -116,7 +135,7 @@ def register(request):
     if useid != None:
         items = User.objects.create( user_name = useid, account=account, password=pwd,telephone=phone, address=address, birthday=date, sex=inputsex)
         items.save()
-        return HttpResponseRedirect('http://127.0.0.1:8000/login/')
+        return redirect('/login/')
     return render(request, "register.html")
 
 # 使用者資訊頁面呈現
