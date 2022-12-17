@@ -138,7 +138,7 @@ def register(request):
         return redirect('/login/')
     return render(request, "register.html")
 
-
+# 使用者資訊頁面呈現
 def UserManager(request):
     user = {}
     user_id = request.session['user_id']
@@ -155,10 +155,13 @@ def UserManager(request):
 
     return render(request, "personal_info_v2.html", user)
 
-
+# 使用者剛進入修改頁面時，最初的初始值呈現
 def UserUpdateManager(request):
     user = {}
-    entry = User.objects.get(id=1)
+    user_id = request.session['user_id']
+    # 綁定登入者的機制 #############
+    entry = User.objects.get(id=user_id)
+
     user['account'] = entry.account
     user['password'] = entry.password
     user['name'] = entry.user_name
@@ -166,9 +169,39 @@ def UserUpdateManager(request):
     user['birth'] = entry.birthday
     user['address'] = entry.address
     user['tel_number'] = entry.telephone
-    user['user_name'] = request.session.get('user_name')
+    user['user_name'] = request.session.get('user_name') # 這不知道誰加的，不知道有啥用
 
     return render(request, "personal_info_update_v2.html", user)
+
+
+# 使用者資訊修改頁面，把資料更新至資料庫，並返回至使用者資訊頁面
+def UserUploadManager(request):
+    user ={}
+    user_id = request.session['user_id']
+    # 綁定登入者的機制 #############
+    entry = User.objects.get(id=user_id)
+
+    entry.account = request.POST['account']
+    entry.password = request.POST['password']
+    entry.user_name = request.POST['name']
+    entry.sex = request.POST['gender']
+    # entry.birthday = str(request.POST.get('birth',False))  # 未解決
+    entry.address = request.POST['address']
+    entry.telephone = request.POST['tel_number']
+
+    entry.save()
+
+    # --------test------
+    user['account'] = entry.account
+    user['password'] = entry.password
+    user['name'] = entry.user_name
+    user['gender'] = entry.sex
+    user['birth'] = entry.birthday
+    user['address'] = entry.address
+    user['tel_number'] = entry.telephone
+    print("upload work ************")
+
+    return render(request, "personal_info_v2.html", user)
 
 
 def OrderManager(request):
