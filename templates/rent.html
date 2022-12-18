@@ -9,45 +9,59 @@
 {% endblock h2title %}
 
 {% block mainBody %}
-    <div class="row mb-3">
-        <label for="colFormLabel" class="col-sm-3 col-form-label">選擇站點：</label>
-        <div class="col-sm-9">
-            <select class="form-select" aria-label="Default select example">
-                <option value="1" selected>志希館</option>
-                <option value="2">管二館</option>
-                <option value="3">松苑餐廳</option>
-            </select>
+
+    <form class="needs-validation" action="/rent/" method ='post' name="myform" novalidate>
+        {% csrf_token %}
+        <div class="row mb-3">
+            <label for="colFormLabel" class="col-sm-3 col-form-label">選擇站點：</label>
+            <div class="col-sm-9">
+                <p><select class="form-select" aria-label="Default select example" id="place" name ="place" onchange="Change();">
+                    <option value="志希館" selected>志希館</option>
+                    <option value="管二館">管二館</option>
+                    <option value="松苑餐廳">松苑餐廳</option>
+                </select></p>
+            </div>
         </div>
-    </div>
-
-    <br><br>
-    <div class="row mb-3">
-        <label for="colFormLabel" class="col-sm-3 col-form-label">選擇車種：</label>
-        <div class="col-sm-9">
-            <select class="form-select" aria-label="Default select example">
-                <option value="1" selected>腳踏車 : </option>
-                <option value="2">電動滑板車 :</option>
-            </select>
+        <div class="row mb-3">
+            <label for="colFormLabel" class="col-sm-3 col-form-label">選擇車種：</label>
+            <div class="col-sm-9">
+                <select class="form-select" aria-label="Default select example" id="cartype" name ="cartype">
+                    <option value="腳踏車" selected>腳踏車</option>
+                    <option value="電動滑板車">電動滑板車</option>
+                </select>
+            </div>
         </div>
-    </div>
+        <div class="col-sm">
+             <label for="colFormLabel" class="col-sm-3 col-form-label">腳踏車:</label>
+             <label for="colFormLabel" class="col-sm-2 col-form-label">{{num_bike}}輛</label>
+             <label for="colFormLabel" class="col-sm-3 col-form-label">電動滑板車:</label>
+             <label for="colFormLabel" class="col-sm-2 col-form-label">{{num_scooter}}輛</label>
+        </div>
+        <center>
+            <div class="col-sm">
+                <form class="container-fluid justify-content-start">
+                    <button class="btn btn-outline-success me-2" type="submit" onclick="triggerAlert();">確認</button>
+                </form>
+            </div>
+        </center>
+    </form>
 
-    <div class="col-sm">
-         <form>
-         <label for="colFormLabel" class="col-sm-3 col-form-label">腳踏車：</label>
-         <label for="colFormLabel" class="col-sm-2 col-form-label">{{num_bike}}輛</label>
-         <label for="colFormLabel" class="col-sm-3 col-form-label">電動滑板車：</label>
-         <label for="colFormLabel" class="col-sm-2 col-form-label">{{num_scooter}}輛</label>
-
-         </form>
-    </div>
 
 
-<center>
-    <div class="col-sm">
-        <form class="container-fluid justify-content-start">
-            <button class="btn btn-outline-success me-2" type="button">確認</button>
-        </form>
-    </div>
-</center>
+<script>
+function triggerAlert() {
+    {% if messages %}
+        <script>
+            {% for msg in messages %}
+                alert('{{ msg.message }}')
+            {% endfor %}
+    {% endif %}
+}
+
+function Change(){
+    alert('更改')
+}
+
+</script>
 
 {% endblock mainBody %}
