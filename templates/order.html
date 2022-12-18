@@ -15,7 +15,7 @@
         </div>
         <div class="mb-1 row">
             <label for="Text1" class="col-sm-3 col-form-label text-end">下車時間：</label>
-                <label for="Text1" class="col-sm-3 col-form-label col-3">{{activateT}}</label>
+                <label for="Text1" class="col-sm-3 col-form-label col-3">{{activeT}}</label>
         </div>
         <div class="mb-1 row">
             <label for="Text1" class="col-sm-3 col-form-label text-end">站點資訊：</label>
@@ -30,11 +30,14 @@
             <label for="Text1" class="col-sm-3 col-form-label col-3" id="CarS">{{state}}</label>
         </div>
    <br><br>
-   <center> 
+   <center>
+   <form method="POST">
+       {% csrf_token %}
        {% comment %} 底下按鈕需要重設 {% endcomment %}
-   <input type="button" value="解鎖" id="btn_active" onclick="Activate()" >
-   <input type="button" value="刪除訂單" onclick="Delete()" >
-   <input type="button" value="回上一頁" onclick="location.href='/rent'">
+       <input type="button" value="解鎖" id="btn_active" onclick="Activate()" >
+       <input type="submit" value="刪除訂單" onclick="Delete()" >
+       <input type="button" value="回上一頁" onclick="location.href='/rent'">
+   </form>
    </center>
 <br><br><br><br>
 
@@ -50,20 +53,10 @@
 
      function Activate(){
          document.getElementById("CarS").textContent = "開始啟用";
-         document.getElementById("currentT").innerHTML = year + " / "+ month + " / " + day + " - " + h + ":" + m ;
+         showtxt.innerHTML = year + " / "+ month + " / " + day + " - " + h + ":" + m ;
      }
      function Delete(){
-         window.confirm('確認取消訂單?');
-         if (confirm('確認取消訂單?') == true) {
-            document.getElementById("Code").textContent = "無";
-            document.getElementById("activeT").textContent = "無";
-            document.getElementById("Place").textContent = "無";
-            document.getElementById("CarN").textContent = "無";
-            document.getElementById("CarS").textContent = "無";
-            showtxt.innerHTML = '取消成功，感謝使用';
-         } else {
-            showtxt.innerHTML = '您已取消確認';
-         }
+         alert =('您已取消確認');
      }
 </script>
 {% endblock mainBody %}
