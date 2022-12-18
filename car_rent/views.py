@@ -7,32 +7,77 @@ from .models import *
 
 # Create your views here.
 
-# 育慈 
+# 育慈
 def rent(request):
+    user_id = request.session['user_id']
     rent_context = {}
-    getstationN = "中大湖"
-    # 所有車
-    AllCar = Car.objects.all()
-    # 所有車數量
-    AllCarN = Car.objects.all().count()
+    #查看是否有訂單
+    try:
+        O = Order.objects.get(order_user=user_id)
+        if O!=None :
+            messages.success(request, "已經有訂單")
+            return redirect('/order/')
+    except:
+        if request.method == 'POST':
+            if request.POST:
+                Place = request.POST.get("place")
+                CarT = request.POST.get("cartype")
+        else:
+            Place = None
+            CarT = None
 
-    # 站點可使用
-    bike = 0;
-    motorcycle = 0;
-    for i in range(AllCarN):
-        if (str(AllCar[i].locate_station) == getstationN and str(AllCar[i].status) == "正常"):
-            print(AllCar[i])
-            if (str(AllCar[i].car_type) == "Bike"):
-                bike = bike + 1;
-            if (str(AllCar[i].car_type) == "motorcycle"):
-                motorcycle = motorcycle + 1
-    print(bike)
-    print(motorcycle)
-    rent_context['num_bike'] = bike
-    rent_context['num_scooter'] = motorcycle
-    rent_context['user_name'] = request.session.get('user_name')
+        #查看顯示剩餘車輛
+        # 所有車、所有車數量
+        AllCar = Car.objects.all()
+        AllCarN = Car.objects.all().count()
+        # 站點可使用
+        bike = 0;
+        motorcycle = 0;
+        bikeN = 999999;
+        motorcycleN = 999999;
+        #從0開始
+        for i in range(AllCarN):
+            if (str(AllCar[i].locate_station) == Place and str(AllCar[i].status) == "正常"):
+                if (str(AllCar[i].car_type) == "Bike"):
+                    bikeN = i;
+                    bike = bike + 1;
+                if (str(AllCar[i].car_type) == "motorcycle"):
+                    motorcycleN = i;
+                    motorcycle = motorcycle + 1
 
-    return render(request, "rent.html", rent_context)
+        rent_context['num_bike'] = bike
+        rent_context['num_scooter'] = motorcycle
+        rent_context['user_name'] = request.session.get('user_name')
+
+         # 預定車更新CarList
+        if CarT == "腳踏車":
+            if bikeN == 999999:
+                messages.success(request, str(Place) + "已經沒有腳踏車了")
+                return render(request, "rent.html", rent_context)
+            else:
+                C = AllCar[bikeN]
+                C.status = '已預訂'
+                C.save()
+        if CarT == "電動滑板車":
+            if motorcycleN == 999999:
+                messages.success(request, str(Place) + "已經沒有電動滑板車了")
+                return render(request, "rent.html", rent_context)
+            else:
+                C = AllCar[motorcycleN]
+                C.status = '已預訂'
+                C.save()
+
+        #建立order物件
+        if Place != None and CarT!= None:
+            U = User.objects.get(id=user_id)
+            S = Station.objects.get(station_name=Place)
+            date1=datetime.now()
+            items = Order.objects.create( order_station =S, order_time=date1,order_user =U,order_car=C)
+            items.save()
+            messages.success(request, "預約成功")
+            return redirect('/order/')
+
+        return render(request, "rent.html", rent_context)
 
 
 def report(request):
@@ -226,15 +271,35 @@ def UserUploadManager(request):
 
 
 def OrderManager(request):
-    order = {}
-    entry = Order.objects.get(id=1)
-    order['Code'] = entry.unlock_code
-    order['activeT'] = entry.order_time
-    order['Place'] = entry.order_station
-    order['CarN'] = entry.order_car
-    order['state'] = entry.order_status
-    order['user_name'] = request.session.get('user_name')
+    user_id = request.session['user_id']
+    try:
+        O = Order.objects.get(order_user=user_id)
+    except:
+        O=None
 
+    if O !=None:
+        order = {}
+        entry = Order.objects.get(order_user=user_id)
+        order['Code'] = entry.unlock_code
+        order['activeT'] = entry.order_time
+        order['Place'] = entry.order_station
+        order['CarN'] = entry.order_car
+        order['state'] = entry.order_status
+        order['user_name'] = request.session.get('user_name')
+    else:
+        entry = None
+        order = {}
+        order['Code'] = "無"
+        order['activeT'] = "無"
+        order['Place'] = "無"
+        order['CarN'] = "無"
+        order['state'] = "無"
+        order['user_name'] = "無"
+        order['user_name'] = request.session.get('user_name')
+    if request.method == "POST":
+        if request.POST:
+            if entry!=None:
+                entry.delete()
     return render(request, "order.html", order)
 
 
