@@ -302,7 +302,7 @@ def OrderManager(request):
                 AllCar = Car.objects.all()
                 AllCarN = Car.objects.all().count()
                 for i in range(AllCarN):
-                    if (str(AllCar[i].id) == entry.order_car.id):
+                    if (AllCar[i].id == entry.order_car.id):
                         C = AllCar[i]
                         C.status = '正常'
                         C.save()
