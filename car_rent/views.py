@@ -55,7 +55,27 @@ def rent(request):
 def report(request):
     report_context = {}
     report_context['user_name'] = request.session.get('user_name')
+    user_id = request.session['user_id']
+
+    if request.method == 'POST':
+        if request.POST:
+            Place = request.POST.get('station')
+            CarId = request.POST.get('Carid')
+            whatHappen = request.POST.get('happen')
+        if CarId=="" or whatHappen=="":
+            messages.success(request, "回報請完整填寫資訊")
+        else:
+            try:
+                time = datetime.now()
+                brokenCar = Car.objects.get(id=CarId)
+                reporter = User.objects.get(id=user_id)
+                newreport = Report.objects.create(report_user=reporter, report_car=brokenCar, reason=whatHappen,date=time)
+                newreport.save()
+                messages.success(request, "申報成功")
+            except:
+                messages.success(request, "車輛不存在，請重新填寫")
     return render(request, "report.html", report_context)
+
 
 
 # 欣瑩
