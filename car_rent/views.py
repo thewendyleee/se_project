@@ -299,9 +299,16 @@ def OrderManager(request):
     if request.method == "POST":
         if request.POST:
             if entry!=None:
+                AllCar = Car.objects.all()
+                AllCarN = Car.objects.all().count()
+                for i in range(AllCarN):
+                    if (str(AllCar[i].id) == entry.order_car.id):
+                        C = AllCar[i]
+                        C.status = '正常'
+                        C.save()
+                        break
                 entry.delete()
     return render(request, "order.html", order)
-
 
 def TransactionManager(request):
     transaction = {}
