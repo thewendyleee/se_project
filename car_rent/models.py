@@ -78,10 +78,10 @@ class Station(models.Model):
 
 
 class Order(models.Model):
-    order_use_time = models.DateTimeField(null=True, default=None)
-    order_return_time = models.DateTimeField(null=True, default=None)
+    order_use_time = models.DateTimeField(null=True, blank=True)
+    order_return_time = models.DateTimeField(null=True, blank=True)
     unlock_code = models.UUIDField(default=uuid.uuid4)
-    order_station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True, default=None)  # 站點資訊
+    order_station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True, blank=True)  # 站點資訊
     order_user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)  # 使用者
     order_car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)  # 車輛資訊
 

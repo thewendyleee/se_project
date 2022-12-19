@@ -223,7 +223,8 @@ def OrderManager(request):
         order = {}
         entry = Order.objects.get(order_user=user_id)
         order['Code'] = entry.unlock_code
-        order['activeT'] = entry.order_time
+        order['activeT'] = entry.order_use_time
+        order['returnT'] = entry.order_return_time
         order['Place'] = entry.order_station
         order['CarN'] = entry.order_car
         order['state'] = entry.order_status
@@ -233,6 +234,7 @@ def OrderManager(request):
         order = {}
         order['Code'] = "無"
         order['activeT'] = "無"
+        order['returnT'] = '無'
         order['Place'] = "無"
         order['CarN'] = "無"
         order['state'] = "無"
@@ -242,6 +244,7 @@ def OrderManager(request):
     order['btn_text'] = "解鎖"
     return render(request, "order.html", order)
 
+# 處理 兩個submit button 需做出的反應
 def order_upload(request):
     user_id = request.session['user_id']
     O = Order.objects.get(order_user=user_id)
@@ -250,11 +253,13 @@ def order_upload(request):
         if request.POST['unlock'] == '解鎖':
             order = {}
             order['Code'] = O.unlock_code
-            order['activeT'] = O.order_time
+            order['activeT'] = datetime.now()  #開始用車時間
+            order['returnT'] = ''
             order['Place'] = O.order_station
             order['CarN'] = O.order_car
 
             O.order_status = '已付款'
+            O.order_use_time = datetime.now()  #存入開始用車時間
             O.save()
 
             order['btn_text'] = '還車'
@@ -264,27 +269,30 @@ def order_upload(request):
             return render(request,"order.html",order)
 
         if request.POST['unlock'] == '還車':
-            pick_up_time = O.order_time  #需改成用車時間
-            return_time = datetime.now()  #需改成還車時間
+            pick_up_time = O.order_use_time  
+            return_time = datetime.now()  #還車時間
             trans_id = O.unlock_code
             trans_user = User.objects.get(id=user_id)
             trans_car = O.order_car
-            trans_station = O.order_station  # 此需要改動
 
+            # 處理還車站點
+            station = request.POST['return_station']  # 從前端取得還車站點
+            trans_station = Station.objects.get(station_name=station) # 根據站點名稱找到Station object，用於傳入建構Transaction
+
+            car = O.order_car  #取得該order車輛
+            car.locate_station = trans_station  # 更新車輛位置為還車之station
+            car.save()
+
+            # 處理間差算錢
             # print(str(pick_up_time)[0:19]) #測試用
             time_1 = datetime.strptime(str(pick_up_time)[0:19],'%Y-%m-%d %H:%M:%S')
             time_2 = datetime.strptime(str(return_time)[0:19],'%Y-%m-%d %H:%M:%S')
             delta = time_2 - time_1
-            print("O.order_time is ",O.order_time)
-            print("pick up time is ",pick_up_time)
-            print("time_1 is ",time_1)
-            print("time_2 is ",time_2)
-            print("delta is ",delta)
             price = 1+((delta.seconds)/60)-480  #因時區問題減8小時更正 ， +1表示至少一塊
 
+#      把order轉存為transaction
             O.delete()
 
-            # pay 先用固定值
             transaction = Transaction.objects.create(pick_up_car_time=pick_up_time,return_car_time=return_time,transaction_id=trans_id,transaction_user=trans_user,transaction_car=trans_car,transaction_station=trans_station,pay=price)
             transaction.save()
 
@@ -387,10 +395,10 @@ def finishrent(request,Place,CarT):
         # 建構Order物件
         if Place != None and CarT!= None:
             U = User.objects.get(id=user_id)
-            S = Station.objects.get(station_name=Place)
-            date1=datetime.now()
-            print("date1 is ",date1)
-            items = Order.objects.create( order_station =S, order_time=date1,order_user =U,order_car=C)
+            # S = Station.objects.get(station_name=Place)  # 暫時用不到
+            # date1=datetime.now() # 暫時用不到
+            # print("date1 is ",date1)
+            items = Order.objects.create( order_user =U,order_car=C)
             items.save()
             messages.success(request, "預約成功")
             return redirect('/order/')
