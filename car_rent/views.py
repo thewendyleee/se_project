@@ -73,36 +73,11 @@ def transaction_detail(request):
     return render(request, "transaction_detail.html", trans_detail)
 
 
-# 世界
-# def order(request):
-#     inputI={'name':"查看訂單"}
-#     inputI['Code'] = "111423004"
-#     inputI['activeT'] = "2022-12-06"
-#     inputI['Place'] = "依仁堂前門"
-#     inputI['CarN'] = "24601"
-#     inputI['state'] = "尚未啟用"
-#     return render(request,"order.html",inputI)
 
 
 def return_car(request):
     return render(request, "return_car.html")
 
-
-# 佳辰
-# def personal_info(request):    
-#     personal_info = {}
-#     personal_info['account'] = 'abc123'
-#     personal_info['password'] = '123456'
-#     personal_info['name'] = 'Oscar'
-#     personal_info['gender'] = 'Male'
-#     personal_info['age'] = '24'
-#     personal_info['address'] = 'Apple street'
-#     personal_info['tel_number'] = '09456789'
-#     return render(request, "personal_info_v2.html", personal_info)
-
-
-# def personal_info_update(request):
-#     return render(request, "personal_info_update_v2.html")
 
 
 # 賢灝
@@ -132,9 +107,6 @@ def logout(request):
     messages.success(request, "登出成功！")
     return redirect('/login')
 
-
-# def register(request):
-#    return render(request, "register.html")
 
 def register(request):
     if request.method == 'POST':
@@ -302,8 +274,13 @@ def order_upload(request):
             # print(str(pick_up_time)[0:19]) #測試用
             time_1 = datetime.strptime(str(pick_up_time)[0:19],'%Y-%m-%d %H:%M:%S')
             time_2 = datetime.strptime(str(return_time)[0:19],'%Y-%m-%d %H:%M:%S')
-            delta = time_1 - time_2
-            price = (delta.seconds)/60  # 有問題須解決
+            delta = time_2 - time_1
+            print("O.order_time is ",O.order_time)
+            print("pick up time is ",pick_up_time)
+            print("time_1 is ",time_1)
+            print("time_2 is ",time_2)
+            print("delta is ",delta)
+            price = 1+((delta.seconds)/60)-480  #因時區問題減8小時更正 ， +1表示至少一塊
 
             O.delete()
 
@@ -324,7 +301,6 @@ def order_upload(request):
                     C.save()
                     break
             O.delete()
-        # 這邊要加上改動車輛狀態的機制
 
         return render(request,"rent.html")
 
@@ -407,10 +383,13 @@ def finishrent(request,Place,CarT):
                 C = AllCar[motorcycleN]
                 C.status = '已預訂'
                 C.save()
+
+        # 建構Order物件
         if Place != None and CarT!= None:
             U = User.objects.get(id=user_id)
             S = Station.objects.get(station_name=Place)
             date1=datetime.now()
+            print("date1 is ",date1)
             items = Order.objects.create( order_station =S, order_time=date1,order_user =U,order_car=C)
             items.save()
             messages.success(request, "預約成功")
