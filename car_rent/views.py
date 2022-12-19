@@ -2,6 +2,8 @@ from django.contrib import auth, messages
 from django.http import HttpResponseRedirect, JsonResponse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import *
 from datetime import datetime,timedelta
 
@@ -81,6 +83,7 @@ def return_car(request):
 
 
 # 賢灝
+@csrf_exempt
 def login(request):
     if request.method == 'POST':
         acc = request.POST.get('account', False)
