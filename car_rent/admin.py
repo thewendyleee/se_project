@@ -33,7 +33,7 @@ admin.site.register(Station, StationAdmin)
 
 
 class UserOrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'order_car', 'order_time', 'order_user', 'order_station', 'order_status')
+    list_display = ('id', 'order_car', 'order_use_time', 'order_return_time',  'order_user', 'order_station', 'order_status')
 
 
 admin.site.register(Order, UserOrderAdmin)
