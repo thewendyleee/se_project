@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}
+    租車系統-租借車
+{% endblock title %}
+
+{% block h2title %}
+    租借車
+{% endblock h2title %}
+
+{% block mainBody %}
+   {% load static%}
+    <br>
+        <div class="mb-1 row">
+            <label for="Text1" class="col-sm-3 col-form-label text-end">選擇站點：</label>
+            <label for="Text1" class="col-sm-3 col-form-label col-3">{{Place}}</label>
+        </div>
+        <div class="mb-1 row">
+            <label for="Text1" class="col-sm-3 col-form-label text-end">選擇車輛：</label>
+                <label for="Text1" class="col-sm-3 col-form-label col-3">{{CarT}}</label>
+        </div>
+   <br><br>
+   <center>
+   <form method="POST">
+       {% csrf_token %}
+       {% comment %} 底下按鈕需要重設 {% endcomment %}
+       <input type="submit" value="確定預約">
+       <input type="button" value="回上一頁" onclick="location.href='/rent'">
+   </form>
+   </center>
+
+{% endblock mainBody %}
+
+<script>
+function triggerAlert() {
+    {% if messages %}
+            {% for msg in messages %}
+                alert('{{ msg.message }}')
+            {% endfor %}
+    {% endif %}
+}
+
+</script>
