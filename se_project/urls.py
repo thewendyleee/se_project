@@ -31,7 +31,10 @@ urlpatterns = [
     path('login/',login),
     path('register/',register),
     path('logout/', logout),
-    path('upload',UserUploadManager),
+
+    path('upload', UserUploadManager),
+    path('register_check/', register_check),
+    path('order_upload',order_upload),
     path('finishrent/<str:Place>/<str:CarT>/',finishrent)
 
 ]
