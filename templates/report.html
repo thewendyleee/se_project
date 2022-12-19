@@ -9,49 +9,58 @@
 {% endblock h2title %}
 
 {% block mainBody %}
-    <div class="row mb-4">
-        <label for="colFormLabel" class="col-sm-3 col-form-label text-end">回報時間：</label>
-        <label for="colFormLabel" class="col-sm-6 col-form-label text-start"><span id = "currentT"></span></label>
-    </div>
 
-    <div class="row mb-4">
-        <label for="colFormLabel" class="col-sm-3 col-form-label text-end">站點位置：</label>
-        <div class="col-sm-8">
-            <select class="form-select" aria-label="Default select example">
-                <option value="1" selected>志希館</option>
-                <option value="2">管二館</option>
-                <option value="3">松苑餐廳</option>
+    <form method="post">
+    {% csrf_token %}
+        <div class="row mb-4">
+            <label for="colFormLabel" class="col-sm-3 col-form-label text-end">回報時間：</label>
+            <label for="colFormLabel" class="col-sm-6 col-form-label text-start"><span id = "currentT"></span></label>
         </div>
-    </div>
 
-    <div class="row mb-4">
-        <label for="colFormLabel" class="col-sm-3 col-form-label text-end">車輛資訊：</label>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" id="InputText_car_info">
+        <div class="row mb-4">
+            <label for="colFormLabel" class="col-sm-3 col-form-label text-end">站點位置：</label>
+            <div class="col-sm-8">
+                <select class="form-select" aria-label="Default select example"name="station">
+                    <option value="志希館" selected>志希館</option>
+                    <option value="管二館">管二館</option>
+                    <option value="松苑餐廳">松苑餐廳</option>
+                </select>
+            </div>
         </div>
-    </div>
 
-    <div class="row mb-5">
-        <label for="colFormLabel" class="col-sm-3 col-form-label text-end">描述：</label>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" id="InputText_description">
+        <div class="row mb-3">
+            <label for="colFormLabel" class="col-sm-3 col-form-label text-end">車輛編號：</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="InputText_car_info" name="Carid">
+            </div>
         </div>
-    </div>
 
-    <div class="row mb-4">
-        <div class="col-sm-6 text-end">
-            <form class="container-fluid justify-content-start">
-                <button class="btn btn-outline-success me-2" type="button">送出</button>
-            </form>
+        <div class="row mb-4">
+            <label for="colFormLabel" class="col-sm-3 col-form-label text-end">描述：</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="InputText_description" name="happen">
+            </div>
         </div>
-        <div class="col-sm-6 text-start">
-            <form class="container-fluid justify-content-start">
-                <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/rent'">回上一頁</button>
-            </form>
+
+        <div class="row mb-4">
+            <div class="col-sm-6 text-end">
+                    <button class="btn btn-outline-success me-2" type="submit" onclick="triggerAlert();">送出</button>
+            </div>
+            <div class="col-sm-6 text-start">
+                    <button class="btn btn-outline-success me-2" type="button" onclick="location.href='/rent'">回上一頁</button>
+            </div>
         </div>
-    </div>
+    </form>
+
 
     <script>
+    function triggerAlert() {
+    {% if messages %}
+            {% for msg in messages %}
+                alert('{{ msg.message }}')
+            {% endfor %}
+    {% endif %}
+    }
     date = new Date();
     year = date.getFullYear();
     month = date.getMonth() + 1;
@@ -62,3 +71,4 @@
     </script>
 
 {% endblock mainBody %}
+
