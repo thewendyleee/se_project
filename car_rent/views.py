@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
-from datetime import datetime
+from datetime import datetime,timedelta
 
 
 # Create your views here.
@@ -323,17 +323,23 @@ def order_upload(request):
             return render(request,"order.html",order)
 
         if request.POST['unlock'] == '還車':
-            pick_up_time = O.order_time
-            return_time = datetime.now()
+            pick_up_time = O.order_time  #需改成用車時間
+            return_time = datetime.now()  #需改成還車時間
             trans_id = O.unlock_code
             trans_user = User.objects.get(id=user_id)
             trans_car = O.order_car
             trans_station = O.order_station  # 此需要改動
 
+            # print(str(pick_up_time)[0:19]) #測試用
+            time_1 = datetime.strptime(str(pick_up_time)[0:19],'%Y-%m-%d %H:%M:%S')
+            time_2 = datetime.strptime(str(return_time)[0:19],'%Y-%m-%d %H:%M:%S')
+            delta = time_1 - time_2
+            price = (delta.seconds)/60  # 有問題須解決
+
             O.delete()
 
             # pay 先用固定值
-            transaction = Transaction.objects.create(pick_up_car_time=pick_up_time,return_car_time=return_time,transaction_id=trans_id,transaction_user=trans_user,transaction_car=trans_car,transaction_station=trans_station,pay=200)
+            transaction = Transaction.objects.create(pick_up_car_time=pick_up_time,return_car_time=return_time,transaction_id=trans_id,transaction_user=trans_user,transaction_car=trans_car,transaction_station=trans_station,pay=price)
             transaction.save()
 
             return redirect('/transaction')
