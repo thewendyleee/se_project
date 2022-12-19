@@ -21,6 +21,10 @@
             <label for="Text1" class="col-sm-3 col-form-label col-3">{{activeT}}</label>
         </div>
         <div class="mb-1 row">
+            <label for="Text1" class="col-sm-3 col-form-label text-end">還車時間：</label>
+            <label for="Text1" class="col-sm-3 col-form-label col-3">{{returnT}}</label>
+        </div>
+        <div class="mb-1 row">
             <label for="Text1" class="col-sm-3 col-form-label text-end">站點資訊：</label>
             <label for="Text1" class="col-sm-3 col-form-label col-3">{{Place}}</label>
         </div>
@@ -32,6 +36,15 @@
             <label for="Text1" class="col-sm-3 col-form-label text-end">車輛狀態：</label>
             <label for="Text1" class="col-sm-3 col-form-label col-3" id="CarS">{{state}}</label>
         </div>
+        {% if btn_text == "還車" %}
+        <div class="mb-1 row">
+            <select class="form-select" aria-label="Default select example" name="return_station">
+                <option value="志希館" selected>志希館<option>
+                <option value="管二館" >管二館<option>
+                <option value="松苑餐廳" >松苑餐廳<option>
+            </select>
+        </div>
+        {% endif %}
    <br><br>
   
        {% comment %} 底下按鈕需要重設 {% endcomment %}
