@@ -16,7 +16,7 @@
             <label for="colFormLabel" class="col-sm-3 col-form-label">選擇站點：</label>
             <div class="col-sm-9">
                 <p><select class="form-select" aria-label="Default select example" id="place" name ="place" onchange="Change();">
-                    <option value="志希館" selected>志希館</option>
+                    <option value="志希館" >志希館</option>
                     <option value="管二館">管二館</option>
                     <option value="松苑餐廳">松苑餐廳</option>
                 </select></p>
@@ -32,15 +32,20 @@
             </div>
         </div>
         <div class="col-sm">
-             <label for="colFormLabel" class="col-sm-3 col-form-label">腳踏車:</label>
+             <label for="colFormLabel" class="col-sm-3 col-form-label">選擇站點:</label>
+             <label for="colFormLabel" class="col-sm-2 col-form-label">{{Place}}</label>
+             <label for="colFormLabel" class="col-sm-3 col-form-label">選擇車種</label>
+             <label for="colFormLabel" class="col-sm-2 col-form-label">{{CarT}}</label>
+             <label for="colFormLabel" class="col-sm-3 col-form-label">剩餘腳踏車:</label>
              <label for="colFormLabel" class="col-sm-2 col-form-label">{{num_bike}}輛</label>
-             <label for="colFormLabel" class="col-sm-3 col-form-label">電動滑板車:</label>
+             <label for="colFormLabel" class="col-sm-3 col-form-label">剩餘電動滑板車:</label>
              <label for="colFormLabel" class="col-sm-2 col-form-label">{{num_scooter}}輛</label>
         </div>
         <center>
             <div class="col-sm">
                 <form class="container-fluid justify-content-start">
                     <button class="btn btn-outline-success me-2" type="submit" onclick="triggerAlert();">確認</button>
+                    <a href=/finishrent/{{Place}}/{{CarT}}/><button class="btn btn-outline-success me-2" type="button" onclick="triggerAlert();">預約</button></a>
                 </form>
             </div>
         </center>
@@ -51,7 +56,6 @@
 <script>
 function triggerAlert() {
     {% if messages %}
-        <script>
             {% for msg in messages %}
                 alert('{{ msg.message }}')
             {% endfor %}

@@ -22,16 +22,19 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('rent/', rent),
     path('report/', report),
-    path('transaction/', TransactionManager),
-    path('transaction_detail/<str:trans_id>/', TransDetailManager),
-    path('order/', OrderManager),
-    path('return_car/', return_car),
-    path('personal_info/', UserManager),
-    path('personal_info_update/', UserUpdateManager),
-    path('login/', login),
-    path('register/', register),
+    path('transaction/',TransactionManager),
+    path('transaction_detail/<str:trans_id>/',TransDetailManager),
+    path('order/',OrderManager),
+    path('return_car/',return_car),
+    path('personal_info/',UserManager),
+    path('personal_info_update/',UserUpdateManager),
+    path('login/',login),
+    path('register/',register),
     path('logout/', logout),
+
     path('upload', UserUploadManager),
     path('register_check/', register_check),
-    path('order_upload',order_upload)
+    path('order_upload',order_upload),
+    path('finishrent/<str:Place>/<str:CarT>/',finishrent)
+
 ]
