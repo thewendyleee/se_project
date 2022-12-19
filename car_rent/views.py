@@ -191,7 +191,14 @@ def UserUploadManager(request):
     entry.account = request.POST['account']
     entry.password = request.POST['password']
     entry.user_name = request.POST['name']
-    entry.sex = request.POST['gender']
+
+# 例外處理若未選擇gender，則提醒選擇性別，並停留至個人資訊更新頁面
+    if request.POST['gender'] == "None":
+        messages.success(request,"請選擇性別")
+        return redirect('/personal_info_update')
+    else:
+        entry.sex = request.POST['gender']  # 更新gender
+    
     entry.birthday = request.POST['birth']
     entry.address = request.POST['address']
     entry.telephone = request.POST['tel_number']
@@ -247,19 +254,31 @@ def OrderManager(request):
 # 處理 兩個submit button 需做出的反應
 def order_upload(request):
     user_id = request.session['user_id']
-    O = Order.objects.get(order_user=user_id)
+
+    # 若order不存在，例外處理
+    try:
+        O = Order.objects.get(order_user=user_id)
+    except:
+        messages.success(request, "訂單不存在")
+        return render(request, "rent.html")   #例外處理，返回租車介面
+
 
     if 'unlock' in request.POST:
         if request.POST['unlock'] == '解鎖':
             order = {}
             order['Code'] = O.unlock_code
-            order['activeT'] = datetime.now()  #開始用車時間
+
+        # 避免重新進入頁面時，用車時間被刷新
+            if O.order_use_time == None:
+                O.order_use_time = datetime.now()
+            
+            order['activeT'] = O.order_use_time
             order['returnT'] = ''
             order['Place'] = O.order_station
             order['CarN'] = O.order_car
 
             O.order_status = '已付款'
-            O.order_use_time = datetime.now()  #存入開始用車時間
+
             O.save()
 
             order['btn_text'] = '還車'
@@ -310,7 +329,7 @@ def order_upload(request):
                     break
             O.delete()
 
-        return render(request,"rent.html")
+            return render(request,"rent.html")
 
 
 def TransactionManager(request):
