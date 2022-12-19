@@ -33,4 +33,5 @@ urlpatterns = [
     path('logout/', logout),
     path('upload', UserUploadManager),
     path('register_check/', register_check),
+    path('order_upload',order_upload)
 ]

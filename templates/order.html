@@ -8,6 +8,9 @@
 
 {% block mainBody %}
    {% load static%}
+   <center>
+    <form action="/order_upload" method="POST">
+        {% csrf_token %}
     <br>
         <div class="mb-1 row">
             <label for="Text1" class="col-sm-3 col-form-label text-end">交易編號：</label>
@@ -30,12 +33,10 @@
             <label for="Text1" class="col-sm-3 col-form-label col-3" id="CarS">{{state}}</label>
         </div>
    <br><br>
-   <center>
-   <form method="POST">
-       {% csrf_token %}
+  
        {% comment %} 底下按鈕需要重設 {% endcomment %}
-       <input type="button" value="解鎖" id="btn_active" onclick="Activate()" >
-       <input type="submit" value="刪除訂單" onclick="Delete()" >
+       <input type="submit" value={{btn_text}} id="btn_active" name='unlock' onclick="Activate()" >
+       <input type="submit" value="刪除訂單" name='delete' onclick="Delete()" >
        <input type="button" value="回上一頁" onclick="location.href='/rent'">
    </form>
    </center>
@@ -52,7 +53,8 @@
      m = date.getMinutes();
 
      function Activate(){
-         document.getElementById("CarS").textContent = "開始啟用";
+         document.getElementById("CarS").textContent = "已付款";
+         //document.getElementById("btn_active").value= "還車";
          showtxt.innerHTML = year + " / "+ month + " / " + day + " - " + h + ":" + m ;
      }
      function Delete(){

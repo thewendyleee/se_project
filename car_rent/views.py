@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
+from datetime import datetime
 
 
 # Create your views here.
@@ -296,12 +297,57 @@ def OrderManager(request):
         order['state'] = "無"
         order['user_name'] = "無"
         order['user_name'] = request.session.get('user_name')
-    if request.method == "POST":
-        if request.POST:
-            if entry!=None:
-                entry.delete()
+    # if request.method == "POST":
+    #     if request.POST:
+    #         if entry!=None:
+    #             entry.delete()
+    order['btn_text'] = "解鎖"
     return render(request, "order.html", order)
 
+def order_upload(request):
+    user_id = request.session['user_id']
+    O = Order.objects.get(order_user=user_id)
+
+    if 'unlock' in request.POST:
+        if request.POST['unlock'] == '解鎖':
+            order = {}
+            order['Code'] = O.unlock_code
+            order['activeT'] = O.order_time
+            order['Place'] = O.order_station
+            order['CarN'] = O.order_car
+
+            O.order_status = '已付款'
+            O.save()
+
+            order['btn_text'] = '還車'
+            order['state'] = O.order_status
+            order['user_name'] = request.session.get('user_name')
+
+            return render(request,"order.html",order)
+
+        if request.POST['unlock'] == '還車':
+            pick_up_time = O.order_time
+            return_time = datetime.now()
+            trans_id = O.unlock_code
+            trans_user = User.objects.get(id=user_id)
+            trans_car = O.order_car
+            trans_station = O.order_station  # 此需要改動
+
+            O.delete()
+
+            # pay 先用固定值
+            transaction = Transaction.objects.create(pick_up_car_time=pick_up_time,return_car_time=return_time,transaction_id=trans_id,transaction_user=trans_user,transaction_car=trans_car,transaction_station=trans_station,pay=200)
+            transaction.save()
+
+            return redirect('/transaction')
+
+    if 'delete' in request.POST:
+        if O!=None:
+            O.delete()
+
+        # 這邊要加上改動車輛狀態的機制
+
+        return render(request,"rent.html")
 
 def TransactionManager(request):
     transaction = {}
