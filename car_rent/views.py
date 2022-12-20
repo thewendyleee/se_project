@@ -317,22 +317,37 @@ def order_upload(request):
             trans_user = User.objects.get(id=user_id)
             trans_car = O.order_car
 
-            # 處理還車站點
+        # 處理還車站點
             station = request.POST['return_station']  # 從前端取得還車站點
             trans_station = Station.objects.get(station_name=station) # 根據站點名稱找到Station object，用於傳入建構Transaction
 
+            AllCar = Car.objects.all()  #所有車輛
+            AllCarNum = Car.objects.all().count()  #所有車輛數
+            current_car_num = 0   #目前站點車輛數
+
+            # 計算該站點目前有多少車輛
+            for i in range(AllCarNum):
+                if AllCar[i].locate_station == trans_station:
+                    current_car_num = current_car_num+1
+
+            # 檢查站點車輛數是否爆滿
+            if trans_station.maximum_load <= current_car_num:
+                messages.success(request,'站點已爆滿，請前往其他站點停車')
+                return redirect('/order')
+
+        # 更新車輛位置 
             car = O.order_car  #取得該order車輛
             car.locate_station = trans_station  # 更新車輛位置為還車之station
             car.save()
 
-            # 處理間差算錢
+        # 處理時間差算錢
             # print(str(pick_up_time)[0:19]) #測試用
             time_1 = datetime.strptime(str(pick_up_time)[0:19],'%Y-%m-%d %H:%M:%S')
             time_2 = datetime.strptime(str(return_time)[0:19],'%Y-%m-%d %H:%M:%S')
             delta = time_2 - time_1
             price = 1+((delta.seconds)/60)-480  #因時區問題減8小時更正 ， +1表示至少一塊
 
-#      把order轉存為transaction
+        #把order轉存為transaction
             O.delete()
 
             transaction = Transaction.objects.create(pick_up_car_time=pick_up_time,return_car_time=return_time,transaction_id=trans_id,transaction_user=trans_user,transaction_car=trans_car,transaction_station=trans_station,pay=price)
