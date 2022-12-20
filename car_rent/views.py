@@ -376,7 +376,8 @@ def order_upload(request):
                     break
             O.delete()
 
-            return render(request,"rent.html")
+        messages.success(request, "刪除成功")
+        return render(request,"order.html")
 
 
 def TransactionManager(request):
