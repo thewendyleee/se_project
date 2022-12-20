@@ -432,44 +432,45 @@ def finishrent(request,Place,CarT):
     motorcycleN = 999999;
     if request.method == 'POST':
         # 從0開始
-        for i in range(AllCarN):
-            if (str(AllCar[i].locate_station) == Place and str(AllCar[i].status) == "正常"):
-                if (str(AllCar[i].car_type) == "Bike"):
-                    bikeN = i;
-                    bike = bike + 1;
-                if (str(AllCar[i].car_type) == "motorcycle"):
-                    motorcycleN = i;
-                    motorcycle = motorcycle + 1
-         # 預定車更新CarList
-        if CarT == "腳踏車":
-            if bikeN == 999999:
-                messages.success(request, str(Place) + "已經沒有腳踏車了")
-                return render(request, "rent.html", rent_context)
-            else:
-                C = AllCar[bikeN]
-                C.status = '已預訂'
-                C.save()
-        if CarT == "電動滑板車":
-            if motorcycleN == 999999:
-                messages.success(request, str(Place) + "已經沒有電動滑板車了")
-                return render(request, "rent.html", rent_context)
-            else:
-                C = AllCar[motorcycleN]
-                C.status = '已預訂'
-                C.save()
+        print(Place)
+        if Place == str(None) :
+            messages.success(request, "請先選擇站點和車種")
+            return redirect('/rent/')
 
-        # 建構Order物件
-        if Place != None and CarT!= None:
+        else:
+            for i in range(AllCarN):
+                if (str(AllCar[i].locate_station) == Place and str(AllCar[i].status) == "正常"):
+                    if (str(AllCar[i].car_type) == "Bike"):
+                        bikeN = i;
+                        bike = bike + 1;
+                    if (str(AllCar[i].car_type) == "motorcycle"):
+                        motorcycleN = i;
+                        motorcycle = motorcycle + 1
+             # 預定車更新CarList
+            if CarT == "腳踏車":
+                if bikeN == 999999:
+                    messages.success(request, str(Place) + "已經沒有腳踏車了")
+                    return render(request, "rent.html", rent_context)
+                else:
+                    C = AllCar[bikeN]
+                    C.status = '已預訂'
+                    C.save()
+            if CarT == "電動滑板車":
+                if motorcycleN == 999999:
+                    messages.success(request, str(Place) + "已經沒有電動滑板車了")
+                    return render(request, "rent.html", rent_context)
+                else:
+                    C = AllCar[motorcycleN]
+                    C.status = '已預訂'
+                    C.save()
             U = User.objects.get(id=user_id)
-            # S = Station.objects.get(station_name=Place)  # 暫時用不到
-            # date1=datetime.now() # 暫時用不到
-            # print("date1 is ",date1)
-            items = Order.objects.create( order_user =U,order_car=C)
+            S = Station.objects.get(station_name=Place)
+            date1=datetime.now()
+            items = Order.objects.create( order_station =S, order_time=date1,order_user =U,order_car=C)
             items.save()
             messages.success(request, "預約成功")
             return redirect('/order/')
 
     return render(request, "finishrent.html",rent_context)
-
 
 
