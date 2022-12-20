@@ -57,6 +57,7 @@ def report(request):
     report_context['user_name'] = request.session.get('user_name')
     user_id = request.session['user_id']
 
+
     if request.method == 'POST':
         if request.POST:
             Place = request.POST.get('station')
@@ -71,6 +72,14 @@ def report(request):
                 reporter = User.objects.get(id=user_id)
                 newreport = Report.objects.create(report_user=reporter, report_car=brokenCar, reason=whatHappen,date=time)
                 newreport.save()
+                AllCar = Car.objects.all()
+                AllCarN = Car.objects.all().count()
+                for i in range(AllCarN):
+                    if (AllCar[i].id == int(CarId)):
+                        C = AllCar[i]
+                        C.status = '維修中'
+                        C.save()
+                        break
                 messages.success(request, "申報成功")
             except:
                 messages.success(request, "車輛不存在，請重新填寫")
