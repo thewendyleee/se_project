@@ -32,17 +32,46 @@ def rent(request):
         # 所有車、所有車數量
         AllCar = Car.objects.all()
         AllCarN = Car.objects.all().count()
+
         # 站點可使用
         bike = 0;
         motorcycle = 0;
-        # 從0開始
-        for i in range(AllCarN):
-            if (str(AllCar[i].locate_station) == Place and str(AllCar[i].status) == "正常"):
-                if (str(AllCar[i].car_type) == "Bike"):
-                    bike = bike + 1;
-                if (str(AllCar[i].car_type) == "motorcycle"):
-                    motorcycle = motorcycle + 1
-
+        bikeN = 999999;
+        motorcycleN = 999999;
+        if request.method == 'POST':
+            # 從0開始
+            for i in range(AllCarN):
+                if (str(AllCar[i].locate_station) == Place and str(AllCar[i].status) == "正常"):
+                    if (str(AllCar[i].car_type) == "Bike"):
+                        bikeN = i;
+                        bike = bike + 1;
+                    if (str(AllCar[i].car_type) == "motorcycle"):
+                        motorcycleN = i;
+                        motorcycle = motorcycle + 1
+            # 預定車更新CarList
+            if CarT == "腳踏車":
+                if bikeN == 999999:
+                    messages.success(request, str(Place) + "已經沒有腳踏車了")
+                    return render(request, "rent.html", rent_context)
+                else:
+                    C = AllCar[bikeN]
+                    C.status = '已預訂'
+                    C.save()
+            if CarT == "電動滑板車":
+                if motorcycleN == 999999:
+                    messages.success(request, str(Place) + "已經沒有電動滑板車了")
+                    return render(request, "rent.html", rent_context)
+                else:
+                    C = AllCar[motorcycleN]
+                    C.status = '已預訂'
+                    C.save()
+            # 建構Order物件
+            if Place != None and CarT != None:
+                U = User.objects.get(id=user_id)
+                items = Order.objects.create(order_user=U, order_car=C)
+                items.save()
+                messages.success(request, "預約成功")
+                return redirect('/order/')
         rent_context['Place'] = Place
         rent_context['CarT'] = CarT
         rent_context['num_bike'] = bike
