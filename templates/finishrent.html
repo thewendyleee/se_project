@@ -24,8 +24,8 @@
    <form method="POST">
        {% csrf_token %}
        {% comment %} 底下按鈕需要重設 {% endcomment %}
-       <input type="submit" value="確定預約">
-       <input type="button" value="回上一頁" onclick="location.href='/rent'">
+       <input class="btn btn-outline-success me-2" type="submit" value="確定預約">
+       <input class="btn btn-outline-success me-2" type="button" value="回上一頁" onclick="location.href='/rent'">
    </form>
    </center>
 
