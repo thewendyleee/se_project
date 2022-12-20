@@ -35,6 +35,7 @@ urlpatterns = [
     path('upload', UserUploadManager),
     path('register_check/', register_check),
     path('order_upload',order_upload),
-    path('finishrent/<str:Place>/<str:CarT>/',finishrent)
+    path('finishrent/<str:Place>/<str:CarT>/',finishrent),
+    path('rent_car_num_check/', rent_car_num_check),
 
 ]
