@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 
 
 # Create your views here.
@@ -14,10 +14,10 @@ from datetime import datetime,timedelta
 def rent(request):
     user_id = request.session['user_id']
     rent_context = {}
-    #查看是否有訂單
+    # 查看是否有訂單
     try:
         O = Order.objects.get(order_user=user_id)
-        if O!=None :
+        if O != None:
             messages.success(request, "已經有訂單")
             return redirect('/order/')
     except:
@@ -28,14 +28,14 @@ def rent(request):
         else:
             Place = None
             CarT = None
-        #查看顯示剩餘車輛
+        # 查看顯示剩餘車輛
         # 所有車、所有車數量
         AllCar = Car.objects.all()
         AllCarN = Car.objects.all().count()
         # 站點可使用
         bike = 0;
         motorcycle = 0;
-        #從0開始
+        # 從0開始
         for i in range(AllCarN):
             if (str(AllCar[i].locate_station) == Place and str(AllCar[i].status) == "正常"):
                 if (str(AllCar[i].car_type) == "Bike"):
@@ -51,6 +51,31 @@ def rent(request):
         return render(request, "rent.html", rent_context)
 
 
+def rent_car_num_check(request):
+    res = {"bike": 0, "scooter": 0}
+    AllCar = Car.objects.all()
+    AllCarN = Car.objects.all().count()
+
+    if request.method == "POST":
+        Place = request.POST.get("place")
+        CarT = request.POST.get("cartype")
+    else:
+        Place = None
+        CarT = None
+    print(Place)
+    print(CarT)
+    # 計算
+    bike = 0;
+    motorcycle = 0;
+    for i in range(AllCarN):
+        if (str(AllCar[i].locate_station) == Place and str(AllCar[i].status) == "正常"):
+            if (str(AllCar[i].car_type) == "Bike"):
+                bike = bike + 1;
+            if (str(AllCar[i].car_type) == "motorcycle"):
+                motorcycle = motorcycle + 1
+    res = {"bike": bike, "scooter": motorcycle}
+    return JsonResponse(res)
+
 
 def report(request):
     report_context = {}
@@ -62,20 +87,20 @@ def report(request):
             Place = request.POST.get('station')
             CarId = request.POST.get('Carid')
             whatHappen = request.POST.get('happen')
-        if CarId=="" or whatHappen=="":
+        if CarId == "" or whatHappen == "":
             messages.success(request, "回報請完整填寫資訊")
         else:
             try:
                 time = datetime.now()
                 brokenCar = Car.objects.get(id=CarId)
                 reporter = User.objects.get(id=user_id)
-                newreport = Report.objects.create(report_user=reporter, report_car=brokenCar, reason=whatHappen,date=time)
+                newreport = Report.objects.create(report_user=reporter, report_car=brokenCar, reason=whatHappen,
+                                                  date=time)
                 newreport.save()
                 messages.success(request, "申報成功")
             except:
                 messages.success(request, "車輛不存在，請重新填寫")
     return render(request, "report.html", report_context)
-
 
 
 # 欣瑩
@@ -95,11 +120,8 @@ def transaction_detail(request):
     return render(request, "transaction_detail.html", trans_detail)
 
 
-
-
 def return_car(request):
     return render(request, "return_car.html")
-
 
 
 # 賢灝
@@ -215,13 +237,13 @@ def UserUploadManager(request):
     entry.password = request.POST['password']
     entry.user_name = request.POST['name']
 
-# 例外處理若未選擇gender，則提醒選擇性別，並停留至個人資訊更新頁面
+    # 例外處理若未選擇gender，則提醒選擇性別，並停留至個人資訊更新頁面
     if request.POST['gender'] == "None":
-        messages.success(request,"請選擇性別")
+        messages.success(request, "請選擇性別")
         return redirect('/personal_info_update')
     else:
         entry.sex = request.POST['gender']  # 更新gender
-    
+
     entry.birthday = request.POST['birth']
     entry.address = request.POST['address']
     entry.telephone = request.POST['tel_number']
@@ -247,9 +269,9 @@ def OrderManager(request):
     try:
         O = Order.objects.get(order_user=user_id)
     except:
-        O=None
+        O = None
 
-    if O !=None:
+    if O != None:
         order = {}
         entry = Order.objects.get(order_user=user_id)
         order['Code'] = entry.unlock_code
@@ -274,6 +296,7 @@ def OrderManager(request):
     order['btn_text'] = "解鎖"
     return render(request, "order.html", order)
 
+
 # 處理 兩個submit button 需做出的反應
 def order_upload(request):
     user_id = request.session['user_id']
@@ -283,18 +306,17 @@ def order_upload(request):
         O = Order.objects.get(order_user=user_id)
     except:
         messages.success(request, "訂單不存在")
-        return render(request, "rent.html")   #例外處理，返回租車介面
-
+        return render(request, "rent.html")  # 例外處理，返回租車介面
 
     if 'unlock' in request.POST:
         if request.POST['unlock'] == '解鎖':
             order = {}
             order['Code'] = O.unlock_code
 
-        # 避免重新進入頁面時，用車時間被刷新
+            # 避免重新進入頁面時，用車時間被刷新
             if O.order_use_time == None:
                 O.order_use_time = datetime.now()
-            
+
             order['activeT'] = O.order_use_time
             order['returnT'] = ''
             order['Place'] = O.order_station
@@ -308,40 +330,43 @@ def order_upload(request):
             order['state'] = O.order_status
             order['user_name'] = request.session.get('user_name')
 
-            return render(request,"order.html",order)
+            return render(request, "order.html", order)
 
         if request.POST['unlock'] == '還車':
-            pick_up_time = O.order_use_time  
-            return_time = datetime.now()  #還車時間
+            pick_up_time = O.order_use_time
+            return_time = datetime.now()  # 還車時間
             trans_id = O.unlock_code
             trans_user = User.objects.get(id=user_id)
             trans_car = O.order_car
 
             # 處理還車站點
             station = request.POST['return_station']  # 從前端取得還車站點
-            trans_station = Station.objects.get(station_name=station) # 根據站點名稱找到Station object，用於傳入建構Transaction
+            trans_station = Station.objects.get(station_name=station)  # 根據站點名稱找到Station object，用於傳入建構Transaction
 
-            car = O.order_car  #取得該order車輛
+            car = O.order_car  # 取得該order車輛
             car.locate_station = trans_station  # 更新車輛位置為還車之station
             car.save()
 
             # 處理間差算錢
             # print(str(pick_up_time)[0:19]) #測試用
-            time_1 = datetime.strptime(str(pick_up_time)[0:19],'%Y-%m-%d %H:%M:%S')
-            time_2 = datetime.strptime(str(return_time)[0:19],'%Y-%m-%d %H:%M:%S')
+            time_1 = datetime.strptime(str(pick_up_time)[0:19], '%Y-%m-%d %H:%M:%S')
+            time_2 = datetime.strptime(str(return_time)[0:19], '%Y-%m-%d %H:%M:%S')
             delta = time_2 - time_1
-            price = 1+((delta.seconds)/60)-480  #因時區問題減8小時更正 ， +1表示至少一塊
+            price = 1 + ((delta.seconds) / 60) - 480  # 因時區問題減8小時更正 ， +1表示至少一塊
 
-#      把order轉存為transaction
+            #      把order轉存為transaction
             O.delete()
 
-            transaction = Transaction.objects.create(pick_up_car_time=pick_up_time,return_car_time=return_time,transaction_id=trans_id,transaction_user=trans_user,transaction_car=trans_car,transaction_station=trans_station,pay=price)
+            transaction = Transaction.objects.create(pick_up_car_time=pick_up_time, return_car_time=return_time,
+                                                     transaction_id=trans_id, transaction_user=trans_user,
+                                                     transaction_car=trans_car, transaction_station=trans_station,
+                                                     pay=price)
             transaction.save()
 
             return redirect('/transaction')
 
     if 'delete' in request.POST:
-        if O!=None:
+        if O != None:
             AllCar = Car.objects.all()
             AllCarN = Car.objects.all().count()
             for i in range(AllCarN):
@@ -352,7 +377,7 @@ def order_upload(request):
                     break
             O.delete()
 
-            return render(request,"rent.html")
+            return render(request, "rent.html")
 
 
 def TransactionManager(request):
@@ -388,11 +413,9 @@ def TransDetailManager(request, trans_id):
     return render(request, "transaction_detail.html", transdetail)
 
 
-
-def finishrent(request,Place,CarT):
-
+def finishrent(request, Place, CarT):
     user_id = request.session['user_id']
-    rent_context={}
+    rent_context = {}
     rent_context['CarT'] = CarT
     rent_context['Place'] = Place
     rent_context['user_name'] = request.session.get('user_name')
@@ -416,7 +439,7 @@ def finishrent(request,Place,CarT):
                 if (str(AllCar[i].car_type) == "motorcycle"):
                     motorcycleN = i;
                     motorcycle = motorcycle + 1
-         # 預定車更新CarList
+        # 預定車更新CarList
         if CarT == "腳踏車":
             if bikeN == 999999:
                 messages.success(request, str(Place) + "已經沒有腳踏車了")
@@ -435,17 +458,14 @@ def finishrent(request,Place,CarT):
                 C.save()
 
         # 建構Order物件
-        if Place != None and CarT!= None:
+        if Place != None and CarT != None:
             U = User.objects.get(id=user_id)
             # S = Station.objects.get(station_name=Place)  # 暫時用不到
             # date1=datetime.now() # 暫時用不到
             # print("date1 is ",date1)
-            items = Order.objects.create( order_user =U,order_car=C)
+            items = Order.objects.create(order_user=U, order_car=C)
             items.save()
             messages.success(request, "預約成功")
             return redirect('/order/')
 
-    return render(request, "finishrent.html",rent_context)
-
-
-
+    return render(request, "finishrent.html", rent_context)
