@@ -490,17 +490,12 @@ def finishrent(request, Place, CarT):
         # 建構Order物件
         if Place != None and CarT != None:
             U = User.objects.get(id=user_id)
-<<<<<<< HEAD
-            # S = Station.objects.get(station_name=Place)
-            # date1=datetime.now()
-            items = Order.objects.create( order_user =U,order_car=C)
-=======
+
             # S = Station.objects.get(station_name=Place)  # 暫時用不到
             # date1=datetime.now() # 暫時用不到
             # print("date1 is ",date1)
             items = Order.objects.create(order_user=U, order_car=C)
 
->>>>>>> 63a41b8ae31921d6d49bab239016bd2428b58da3
             items.save()
             messages.success(request, "預約成功")
             return redirect('/order/')
