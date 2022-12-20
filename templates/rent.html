@@ -45,7 +45,7 @@
         <center>
             <div class="col-sm">
                 <form class="container-fluid justify-content-start">
-                        <button class="btn btn-outline-success me-2" type="submit" id="reserved">預約</button>
+                        <button class="btn btn-outline-success me-2" type="submit" id="reserved" disabled>預約</button>
                 </form>
             </div>
         </center>
@@ -62,7 +62,7 @@
             {% endif %}
         }
 
-        $("#place").blur(
+        $("#place").mouseleave(
             function () {
                 var place_options = $("#place option:selected");
                 var Place = place_options.text();
