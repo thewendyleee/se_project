@@ -377,7 +377,7 @@ def order_upload(request):
             O.delete()
 
         messages.success(request, "刪除成功")
-        return render(request,"order.html")
+        return redirect('order.html')
 
 
 def TransactionManager(request):
@@ -465,9 +465,9 @@ def finishrent(request,Place,CarT):
                     C.status = '已預訂'
                     C.save()
             U = User.objects.get(id=user_id)
-            S = Station.objects.get(station_name=Place)
-            date1=datetime.now()
-            items = Order.objects.create( order_station =S, order_time=date1,order_user =U,order_car=C)
+            # S = Station.objects.get(station_name=Place)
+            # date1=datetime.now()
+            items = Order.objects.create( order_user =U,order_car=C)
             items.save()
             messages.success(request, "預約成功")
             return redirect('/order/')
