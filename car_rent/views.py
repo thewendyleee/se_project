@@ -490,6 +490,7 @@ def finishrent(request, Place, CarT):
         # 建構Order物件
         if Place != None and CarT != None:
             U = User.objects.get(id=user_id)
+
             # S = Station.objects.get(station_name=Place)  # 暫時用不到
             # date1=datetime.now() # 暫時用不到
             # print("date1 is ",date1)
