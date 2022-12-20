@@ -82,6 +82,7 @@ def report(request):
     report_context['user_name'] = request.session.get('user_name')
     user_id = request.session['user_id']
 
+
     if request.method == 'POST':
         if request.POST:
             Place = request.POST.get('station')
@@ -97,6 +98,14 @@ def report(request):
                 newreport = Report.objects.create(report_user=reporter, report_car=brokenCar, reason=whatHappen,
                                                   date=time)
                 newreport.save()
+                AllCar = Car.objects.all()
+                AllCarN = Car.objects.all().count()
+                for i in range(AllCarN):
+                    if (AllCar[i].id == int(CarId)):
+                        C = AllCar[i]
+                        C.status = '維修中'
+                        C.save()
+                        break
                 messages.success(request, "申報成功")
             except:
                 messages.success(request, "車輛不存在，請重新填寫")
@@ -274,7 +283,7 @@ def OrderManager(request):
     if O != None:
         order = {}
         entry = Order.objects.get(order_user=user_id)
-        order['Code'] = entry.unlock_code
+        order['Code'] = str(entry.unlock_code)[0:8]   #只取8位字母
         order['activeT'] = entry.order_use_time
         order['returnT'] = entry.order_return_time
         order['Place'] = entry.order_station
@@ -339,22 +348,40 @@ def order_upload(request):
             trans_user = User.objects.get(id=user_id)
             trans_car = O.order_car
 
-            # 處理還車站點
+        # 處理還車站點
             station = request.POST['return_station']  # 從前端取得還車站點
             trans_station = Station.objects.get(station_name=station)  # 根據站點名稱找到Station object，用於傳入建構Transaction
 
-            car = O.order_car  # 取得該order車輛
+
+            AllCar = Car.objects.all()  #所有車輛
+            AllCarNum = Car.objects.all().count()  #所有車輛數
+            current_car_num = 0   #目前站點車輛數
+
+            # 計算該站點目前有多少車輛
+            for i in range(AllCarNum):
+                if AllCar[i].locate_station == trans_station:
+                    current_car_num = current_car_num+1
+
+            # 檢查站點車輛數是否爆滿
+            if trans_station.maximum_load <= current_car_num:
+                messages.success(request,'站點已爆滿，請前往其他站點停車')
+                return redirect('/order')
+
+        # 更新車輛位置 
+            car = O.order_car  #取得該order車輛
             car.locate_station = trans_station  # 更新車輛位置為還車之station
             car.save()
 
-            # 處理間差算錢
+        # 處理時間差算錢
             # print(str(pick_up_time)[0:19]) #測試用
             time_1 = datetime.strptime(str(pick_up_time)[0:19], '%Y-%m-%d %H:%M:%S')
             time_2 = datetime.strptime(str(return_time)[0:19], '%Y-%m-%d %H:%M:%S')
             delta = time_2 - time_1
             price = 1 + ((delta.seconds) / 60) - 480  # 因時區問題減8小時更正 ， +1表示至少一塊
 
-            #      把order轉存為transaction
+
+        #把order轉存為transaction
+
             O.delete()
 
             transaction = Transaction.objects.create(pick_up_car_time=pick_up_time, return_car_time=return_time,
@@ -377,7 +404,10 @@ def order_upload(request):
                     break
             O.delete()
 
-            return render(request, "rent.html")
+
+        messages.success(request, "刪除成功")
+        return render(request,"order.html")
+
 
 
 def TransactionManager(request):
@@ -402,7 +432,7 @@ def TransDetailManager(request, trans_id):
     entry = Transaction.objects.get(transaction_id=trans_id)
     # 用URL 綁定指定資料的機制 ##############
 
-    transdetail['trans_id'] = entry.transaction_id
+    transdetail['trans_id'] = str(entry.transaction_id)[0:8]  #只取前8位
     transdetail['get_time'] = entry.pick_up_car_time
     transdetail['return_time'] = entry.return_car_time
     transdetail['vehicle_id'] = entry.transaction_car
@@ -464,8 +494,11 @@ def finishrent(request, Place, CarT):
             # date1=datetime.now() # 暫時用不到
             # print("date1 is ",date1)
             items = Order.objects.create(order_user=U, order_car=C)
+
             items.save()
             messages.success(request, "預約成功")
             return redirect('/order/')
 
-    return render(request, "finishrent.html", rent_context)
+    return render(request, "finishrent.html",rent_context)
+
+

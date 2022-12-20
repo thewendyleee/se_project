@@ -10,7 +10,7 @@
       <a href="../transaction_detail/{{trans}}/"  class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
         <div class="d-flex gap-2 w-100 justify-content-between">
           <div>
-            <h6 class="mb-0">交易紀錄編號 {{trans}}</h6>
+            <h6 class="mb-0">交易紀錄編號     {% filter slice:"0:8" %}{{trans}}{% endfilter %}</h6>
           </div>
         </div>
       </a>
