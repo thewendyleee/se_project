@@ -49,8 +49,8 @@
             <div class="col-sm">
                 <form class="container-fluid justify-content-start">
                     <button class="btn btn-outline-success me-2" type="submit" onclick="triggerAlert();">確認</button>
-                    <a href=/finishrent/{{ Place }}/{{ CarT }}/>
-                        <button class="btn btn-outline-success me-2" type="button" onclick="triggerAlert();">預約
+                   <a href=/finishrent/{{ Place }}/{{ CarT }}/> {#這個herf 可能要改掉#}
+                        <button class="btn btn-outline-success me-2" type="button" onclick="triggerAlert();" id="reserved">預約
                         </button>
                     </a>
                 </form>
@@ -97,6 +97,7 @@
                         $("#bike_num").text(data["bike"] + "輛");
                         $("#scooter_num").text(data["scooter"] + "輛");
 
+                        // 如果數量是0就不讓他選其車種
                         if(data["bike"] == 0)
                             document.getElementById("cartype").options[1].disabled = true;
                         else
@@ -106,6 +107,15 @@
                             document.getElementById("cartype").options[2].disabled = true;
                         else
                             document.getElementById("cartype").options[2].disabled = false;
+
+                        // 如果是兩個車種都是0不能預約
+                        if(data["bike"] == 0 & data["scooter"] == 0){
+                            document.getElementById("reserved").disabled = true;
+                        }
+                        else{
+                            document.getElementById("reserved").disabled = false;
+                        }
+
 
                     },
                     error: function (error) {
