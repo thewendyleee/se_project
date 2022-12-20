@@ -261,7 +261,7 @@ def OrderManager(request):
     if O !=None:
         order = {}
         entry = Order.objects.get(order_user=user_id)
-        order['Code'] = entry.unlock_code
+        order['Code'] = str(entry.unlock_code)[0:8]   #只取8位字母
         order['activeT'] = entry.order_use_time
         order['returnT'] = entry.order_return_time
         order['Place'] = entry.order_station
@@ -402,7 +402,7 @@ def TransDetailManager(request, trans_id):
     entry = Transaction.objects.get(transaction_id=trans_id)
     # 用URL 綁定指定資料的機制 ##############
 
-    transdetail['trans_id'] = entry.transaction_id
+    transdetail['trans_id'] = str(entry.transaction_id)[0:8]  #只取前8位
     transdetail['get_time'] = entry.pick_up_car_time
     transdetail['return_time'] = entry.return_car_time
     transdetail['vehicle_id'] = entry.transaction_car
