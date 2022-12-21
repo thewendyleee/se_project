@@ -556,10 +556,11 @@ def finishrent(request, Place, CarT):
         if Place != None and CarT != None:
             U = User.objects.get(id=user_id)
 
-            # S = Station.objects.get(station_name=Place)  # 暫時用不到
+            S = Station.objects.get(station_name=Place)  # 暫時用不到
+            print("S is **************",Place)
             # date1=datetime.now() # 暫時用不到
             # print("date1 is ",date1)
-            items = Order.objects.create(order_user=U, order_car=C)
+            items = Order.objects.create(order_user=U, order_car=C,order_station=S)
 
 
             items.save()
