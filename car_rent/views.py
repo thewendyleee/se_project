@@ -326,6 +326,12 @@ def OrderManager(request):
         order['CarN'] = entry.order_car
         order['state'] = entry.order_status
         order['user_name'] = request.session.get('user_name')
+        if entry.order_status == '未付款':
+            order['btn_text'] = "解鎖"
+            order['Disable'] = False
+        else:
+            order['btn_text'] = "還車"
+            order['Disable'] = True
     else:
         entry = None
         order = {}
@@ -336,9 +342,9 @@ def OrderManager(request):
         order['CarN'] = "無"
         order['state'] = "無"
         order['user_name'] = "無"
+        order['btn_text'] = "解鎖"
         order['user_name'] = request.session.get('user_name')
 
-    order['btn_text'] = "解鎖"
     return render(request, "order.html", order)
 
 
@@ -368,7 +374,13 @@ def order_upload(request):
             order['Place'] = O.order_station
             order['CarN'] = O.order_car
 
+
+            O.order_status = '使用中'
+            O.save()
+
+
             order['btn_text'] = '還車'
+            order['Disable'] = True
             order['state'] = O.order_status
             order['user_name'] = request.session.get('user_name')
 

@@ -88,6 +88,7 @@ class Order(models.Model):
     order_st = (
         ('未付款', '未付款'),
         ('已付款', '已付款'),
+        ('使用中','使用中'),
     )
     order_status = models.CharField(
         max_length=10,

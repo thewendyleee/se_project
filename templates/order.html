@@ -33,7 +33,7 @@
             <label for="Text1" class="col-sm-3 col-form-label col-3">{{CarN}}</label>
         </div>
         <div class="mb-1 row">
-            <label for="Text1" class="col-sm-3 col-form-label text-end">車輛狀態：</label>
+            <label for="Text1" class="col-sm-3 col-form-label text-end">訂單狀態：</label>
             <label for="Text1" class="col-sm-3 col-form-label col-3" id="CarS">{{state}}</label>
         </div>
         {% if btn_text == "還車" %}
@@ -49,9 +49,12 @@
         {% endif %}
    <br><br>
   
-       {% comment %} 底下按鈕需要重設 {% endcomment %}
        <input class="btn btn-outline-success me-2" type="submit" value={{btn_text}} id="btn_active" name='unlock' onclick="Activate()" >
-       <input class="btn btn-outline-success me-2" type="submit" value="刪除訂單" name='delete' onclick="triggerAlert();" >
+       {% if Disable %}
+       <input class="btn btn-outline-success me-2" type="submit" value="刪除訂單" id="delete_btn" name='delete' onclick="triggerAlert();" disabled>
+            {% else %}
+        <input class="btn btn-outline-success me-2" type="submit" value="刪除訂單" id="delete_btn" name='delete' onclick="triggerAlert();">
+        {% endif %}
        <input class="btn btn-outline-success me-2" type="button" value="回租車頁面" onclick="location.href='/rent'">
    </form>
    </center>
@@ -74,6 +77,14 @@
                     alert('{{ msg.message }}')
                 {% endfor %}
         {% endif %}
+
+        //let delete_btn = document.getElementById("delete_btn");
+        //let unlock_btn_txt = document.getElementById("btn_active").value;
+        //if(unlock_btn_txt=="解鎖"){
+          //  delete_btn.removeAttribute("disabled")
+       // }else{
+          //  delete_btn.setAttribute("disabled", "disabled")
+       // }
      }
     
      function Activate(){
