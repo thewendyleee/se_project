@@ -351,6 +351,14 @@ def OrderManager(request):
 # 處理 兩個submit button 需做出的反應
 def order_upload(request):
     user_id = request.session['user_id']
+    
+    #從資料庫取站 
+    order = {}
+    data = []
+    entry = Station.objects.all()
+    for i in range(len(list(entry))):
+        data.append(str(list(entry)[i].station_name))
+    order['stations'] = data
 
     # 若order不存在，例外處理
     try:
@@ -361,7 +369,7 @@ def order_upload(request):
 
     if 'unlock' in request.POST:
         if request.POST['unlock'] == '解鎖':
-            order = {}
+            #order = {}
             order['Code'] = str(O.unlock_code)[0:8]  #只取8位字母
 
             # 避免重新進入頁面時，用車時間被刷新
