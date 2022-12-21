@@ -17,6 +17,7 @@
             <div class="col-sm-9">
                 <p><select class="form-select" aria-label="Default select example" id="place" name="place"
                            onchange="Change();">
+                    <option value="" selected disabled>-- 請選擇 --</option>
                     {% for station in stations %}
                         <option value={{station}}>{{station}}</option>
                     {% endfor %}
