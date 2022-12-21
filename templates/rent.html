@@ -17,11 +17,9 @@
             <div class="col-sm-9">
                 <p><select class="form-select" aria-label="Default select example" id="place" name="place"
                            onchange="Change();">
-                    <option value="" selected disabled>-- 請選擇 --</option>
-                    <option value="志希館">志希館</option>
-                    <option value="管二館">管二館</option>
-                    <option value="松苑餐廳">松苑餐廳</option>
-                    <option value="小站">小站</option>
+                    {% for station in stations %}
+                        <option value={{trans}}>{{station}}</option>
+                    {% endfor %}
                 </select></p>
             </div>
             <div class="col-sm">
