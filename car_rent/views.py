@@ -311,13 +311,21 @@ def UserUploadManager(request):
 
 def OrderManager(request):
     user_id = request.session['user_id']
+    
+    #從資料庫取站
+    order = {}
+    data = []
+    entry = Station.objects.all()
+    for i in range(len(list(entry))):
+        data.append(str(list(entry)[i].station_name))
+    order['stations'] = data
+    
     try:
         O = Order.objects.get(order_user=user_id)
     except:
         O = None
 
     if O != None:
-        order = {}
         entry = Order.objects.get(order_user=user_id)
         order['Code'] = str(entry.unlock_code)[0:8]   #只取8位字母
         order['activeT'] = entry.order_use_time
