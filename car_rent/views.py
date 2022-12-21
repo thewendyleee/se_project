@@ -14,6 +14,13 @@ from datetime import datetime, timedelta
 def rent(request):
     user_id = request.session['user_id']
     rent_context = {}
+    data = []
+    entry = Station.objects.all()
+    for i in range(len(list(entry))):
+        data.append(str(list(entry)[i].station_name))
+    rent_context['stations'] = data
+    
+    
     # 查看是否有訂單
     try:
         O = Order.objects.get(order_user=user_id)
