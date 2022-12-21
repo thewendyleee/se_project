@@ -399,6 +399,7 @@ def order_upload(request):
         # 更新車輛位置 
             car = O.order_car  #取得該order車輛
             car.locate_station = trans_station  # 更新車輛位置為還車之station
+            car.status = '正常'
             car.save()
 
         # 處理時間差算錢
