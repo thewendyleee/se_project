@@ -354,15 +354,12 @@ def order_upload(request):
             # 避免重新進入頁面時，用車時間被刷新
             if O.order_use_time == None:
                 O.order_use_time = datetime.now()
-
+                O.save()
+                
             order['activeT'] = O.order_use_time
             order['returnT'] = ''
             order['Place'] = O.order_station
             order['CarN'] = O.order_car
-
-            O.order_status = '已付款'
-
-            O.save()
 
             order['btn_text'] = '還車'
             order['state'] = O.order_status
@@ -376,7 +373,10 @@ def order_upload(request):
             trans_id = O.unlock_code
             trans_user = User.objects.get(id=user_id)
             trans_car = O.order_car
-
+            
+            O.order_status = '已付款'
+            O.save()
+            
         # 處理還車站點
             station = request.POST['return_station']  # 從前端取得還車站點
             trans_station = Station.objects.get(station_name=station)  # 根據站點名稱找到Station object，用於傳入建構Transaction
