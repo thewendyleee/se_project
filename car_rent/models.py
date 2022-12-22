@@ -117,8 +117,8 @@ class Transaction(models.Model):
     return_car_time = models.DateTimeField()
     transaction_id = models.CharField(max_length=50, blank=True)  # 跟隨order UUID
     transaction_user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)  # 使用者資訊
-    transaction_car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)  # 車輛資訊
-    transaction_station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True)  # 站點資訊
+    transaction_car = models.CharField(max_length=50, null=True)  # 車輛資訊
+    transaction_station = models.CharField(max_length=50, null=True)  # 站點資訊
     pay = models.IntegerField()
 
     def __str__(self):
