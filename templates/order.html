@@ -14,36 +14,38 @@
     <br>
         <div class="mb-1 row">
             <label for="Text1" class="col-sm-3 col-form-label text-end">交易編號：</label>
-            <label for="Text1" class="col-sm-3 col-form-label col-3">{{Code}}</label>
+            <label for="Text1" class="col-sm-7 col-form-label col-3 text-center">{{Code}}</label>
         </div>
         <div class="mb-1 row">
             <label for="Text1" class="col-sm-3 col-form-label text-end">用車時間：</label>
-            <label for="Text1" class="col-sm-3 col-form-label col-3">{{activeT}}</label>
+            <label for="Text1" class="col-sm-7 col-form-label col-3 text-center">{{activeT}}</label>
         </div>
         <div class="mb-1 row">
             <label for="Text1" class="col-sm-3 col-form-label text-end">還車時間：</label>
-            <label for="Text1" class="col-sm-3 col-form-label col-3">{{returnT}}</label>
+            <label for="Text1" class="col-sm-7 col-form-label col-3 text-center">{{returnT}}</label>
         </div>
         <div class="mb-1 row">   {% comment %}   # 先刪掉，之後考慮改成租車站點 {% endcomment %}
             <label for="Text1" class="col-sm-3 col-form-label text-end">租車站點：</label>
-            <label for="Text1" class="col-sm-3 col-form-label col-3">{{Place}}</label>
+            <label for="Text1" class="col-sm-7 col-form-label col-3 text-center">{{Place}}</label>
         </div>
         <div class="mb-1 row">
             <label for="Text1" class="col-sm-3 col-form-label text-end">車輛資訊：</label>
-            <label for="Text1" class="col-sm-3 col-form-label col-3">{{CarN}}</label>
+            <label for="Text1" class="col-sm-7 col-form-label col-3 text-center">{{CarN}}</label>
         </div>
         <div class="mb-1 row">
             <label for="Text1" class="col-sm-3 col-form-label text-end">訂單狀態：</label>
-            <label for="Text1" class="col-sm-3 col-form-label col-3" id="CarS">{{state}}</label>
+            <label for="Text1" class="col-sm-7 col-form-label col-3 text-center" id="CarS">{{state}}</label>
         </div>
         {% if btn_text == "還車" %}
         <div class="mb-1 row">
             <label for="return_station" class="col-sm-3 col-form-label text-end">還車站點：</label>
-            <select class="form-select" aria-label="Default select example" name="return_station">
+            <div class="col-sm-7 center">
+                <select class="form-select" aria-label="Default select example" name="return_station">
                     {% for station in stations %}
                         <option value={{station}}>{{station}}</option>
                     {% endfor %}
-            </select>
+                </select>
+            </div>
         </div>
         {% endif %}
    <br><br>
