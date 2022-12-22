@@ -6,28 +6,28 @@
 
 {% block mainBody %}
         <div class="mb-1 row">
-                <label for="Text1" class="col-sm-5 col-form-label">交易紀錄編號:</label>
-                <label for="Text1" class="col-sm-5 col-form-label col-3">{{trans_id}}</label>
+                <label for="Text1" class="col-sm-4 col-form-label text-end">交易紀錄編號：</label>
+                <label for="Text1" class="col-sm-7 col-form-label col-3 text-center">{{trans_id}}</label>
         </div>
         <div class="mb-1 row">
-                <label for="Text2" class="col-sm-5 col-form-label">取車時間：</label>
-                <label for="Text1" class="col-sm-5 col-form-label col-3">{{get_time}}</label>
+                <label for="Text2" class="col-sm-4 col-form-label text-end">取車時間：</label>
+                <label for="Text1" class="col-sm-7 col-form-label col-3 text-center">{{get_time}}</label>
         </div>
         <div class="mb-1 row">
-                <label for="Text3" class="col-sm-5 col-form-label">還車時間：</label>
-                <label for="Text1" class="col-sm-5 col-form-label col-3">{{return_time}}</label>
+                <label for="Text3" class="col-sm-4 col-form-label text-end">還車時間：</label>
+                <label for="Text1" class="col-sm-7 col-form-label col-3 text-center">{{return_time}}</label>
         </div>
         <div class="mb-1 row">
-                <label for="Text4" class="col-sm-5 col-form-label">車輛編號：</label>
-                <label for="Text1" class="col-sm-5 col-form-label col-3">{{vehicle_id}}</label>
+                <label for="Text4" class="col-sm-4 col-form-label text-end">車輛編號：</label>
+                <label for="Text1" class="col-sm-7 col-form-label col-3 text-center">{{vehicle_id}}</label>
         </div>
         <div class="mb-1 row">
-                <label for="Text5" class="col-sm-5 col-form-label">還車站點：</label>
-                <label for="Text1" class="col-sm-5 col-form-label col-3">{{station}}</label>
+                <label for="Text5" class="col-sm-4 col-form-label text-end">還車站點：</label>
+                <label for="Text1" class="col-sm-7 col-form-label col-3 text-center">{{station}}</label>
         </div>
         <div class="mb-1 row">
-                <label for="Text6" class="col-sm-5 col-form-label">付款金額：</label>
-                <label for="Text1" class="col-sm-5 col-form-label col-3">${{price}}</label>
+                <label for="Text6" class="col-sm-4 col-form-label text-end">付款金額：</label>
+                <label for="Text1" class="col-sm-7 col-form-label col-3 text-center">${{price}}</label>
         </div>
         <div class="col-md-7 text-end">
                 <a type="button" class="btn btn-outline-primary me-2" href="/transaction" role="button">回上一頁</a>
