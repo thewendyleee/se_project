@@ -12,7 +12,7 @@ admin.site.register(User, UserAdmin)
 
 
 class CarTypeAdmin(admin.ModelAdmin):
-    list_display = ('type_name', 'type_number')
+    list_display = ('id','type_name', 'type_number')
 
 
 admin.site.register(CarType, CarTypeAdmin)
