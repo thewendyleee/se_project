@@ -75,7 +75,7 @@ def rent(request):
             # 建構Order物件
             if Place != None and CarT != None:
                 U = User.objects.get(id=user_id)
-                S = Station.objects.get(station_name=Place)
+                S = Place
                 items = Order.objects.create(order_user=U, order_car=C, order_station=S)
                 items.save()
                 messages.success(request, "預約成功")
