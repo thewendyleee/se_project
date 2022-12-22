@@ -407,15 +407,15 @@ def order_upload(request):
             return_time = datetime.now()  # 還車時間
             trans_id = O.unlock_code
             trans_user = User.objects.get(id=user_id)
-            trans_car = O.order_car
+            # trans_car = O.order_car.id
             
             O.order_status = '已付款'
             O.save()
             
         # 處理還車站點
             station = request.POST['return_station']  # 從前端取得還車站點
-            trans_station = Station.objects.get(station_name=station)  # 根據站點名稱找到Station object，用於傳入建構Transaction
-
+            trans_station = Station.objects.get(station_name=station)  # 根據站點名稱找到Station object
+            trans_station_name = trans_station.station_name  #轉為字串，用於傳入建構Transaction
 
             AllCar = Car.objects.all()  #所有車輛
             AllCarNum = Car.objects.all().count()  #所有車輛數
@@ -431,11 +431,12 @@ def order_upload(request):
                 messages.success(request,'站點已爆滿，請前往其他站點停車')
                 return redirect('/order')
 
-        # 更新車輛位置 
+        # 更新車輛位置，並轉為字串存入transaction
             car = O.order_car  #取得該order車輛
             car.locate_station = trans_station  # 更新車輛位置為還車之station
             car.status = '正常'
             car.save()
+            trans_car = str(car.id)+"號  "+str(car.car_type.type_name) #轉為字串，用於傳入建構Transaction
 
         # 處理時間差算錢
             # print(str(pick_up_time)[0:19]) #測試用
@@ -451,7 +452,7 @@ def order_upload(request):
 
             transaction = Transaction.objects.create(pick_up_car_time=pick_up_time, return_car_time=return_time,
                                                      transaction_id=trans_id, transaction_user=trans_user,
-                                                     transaction_car=trans_car, transaction_station=trans_station,
+                                                     transaction_car=trans_car, transaction_station=trans_station_name,
                                                      pay=price)
             transaction.save()
 
@@ -556,11 +557,11 @@ def finishrent(request, Place, CarT):
         if Place != None and CarT != None:
             U = User.objects.get(id=user_id)
 
-            S = Station.objects.get(station_name=Place)  # 暫時用不到
-            print("S is **************",Place)
+            # S = Station.objects.get(station_name=Place)  # 暫時用不到
+            # print("S is **************",Place) #測試用
             # date1=datetime.now() # 暫時用不到
             # print("date1 is ",date1)
-            items = Order.objects.create(order_user=U, order_car=C,order_station=S)
+            items = Order.objects.create(order_user=U, order_car=C)
 
 
             items.save()
