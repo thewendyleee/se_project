@@ -81,9 +81,11 @@ class Order(models.Model):
     order_use_time = models.DateTimeField(null=True, blank=True)
     order_return_time = models.DateTimeField(null=True, blank=True)
     unlock_code = models.UUIDField(default=uuid.uuid4)
-    order_station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True, blank=True)  # 站點資訊
+    #order_station = models.ForeignKey('Station', on_delete=models.SET_NULL, null=True, blank=True)  # 站點資訊
     order_user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)  # 使用者
     order_car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)  # 車輛資訊
+    order_station = models.CharField(max_length=50, null=True) # 新站點資訊 - 字串
+
 
     order_st = (
         ('未付款', '未付款'),
