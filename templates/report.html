@@ -12,15 +12,22 @@
 
     <form method="post">
     {% csrf_token %}
+
+
         <div class="row mb-4">
             <label for="colFormLabel" class="col-sm-3 col-form-label text-end">回報時間：</label>
             <label for="colFormLabel" class="col-sm-6 col-form-label text-start"><span id = "currentT"></span></label>
         </div>
 
         <div class="row mb-3">
-            <label for="colFormLabel" class="col-sm-3 col-form-label text-end">車輛編號：</label>
+            <label for="colFormLabel" class="col-sm-3 col-form-label text-end">車輛標號：</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="InputText_car_info" name="Carid">
+                <p><select class="form-select" aria-label="Default select example" id="Carid" name="Carid">
+                    <option value="" selected disabled>-- 請選擇 --</option>
+                    {% for car in cars %}
+                        <option value={{car}}>{{car}}</option>
+                    {% endfor %}
+                </select></p>
             </div>
         </div>
 
