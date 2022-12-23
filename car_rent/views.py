@@ -118,7 +118,11 @@ def report(request):
     report_context = {}
     report_context['user_name'] = request.session.get('user_name')
     user_id = request.session['user_id']
-
+    data = []
+    entry = Car.objects.all()
+    for i in range(len(list(entry))):
+        data.append(str(list(entry)[i].id))
+    report_context['cars'] = data
 
     if request.method == 'POST':
         if request.POST:
@@ -137,13 +141,18 @@ def report(request):
                 newreport.save()
                 AllCar = Car.objects.all()
                 AllCarN = Car.objects.all().count()
+                #判斷找尋車輛、確認目前車輛狀況
                 for i in range(AllCarN):
                     if (AllCar[i].id == int(CarId)):
                         C = AllCar[i]
-                        C.status = '維修中'
-                        C.save()
-                        break
-                messages.success(request, "申報成功")
+                        if (C.status == '維修中'):
+                            messages.success(request, "已經申報")
+                            break
+                        else:
+                            C.status = '維修中'
+                            C.save()
+                            messages.success(request, "申報成功")
+                            break
             except:
                 messages.success(request, "車輛不存在，請重新填寫")
     return render(request, "report.html", report_context)
