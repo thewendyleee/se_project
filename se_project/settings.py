@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'car_rent',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
