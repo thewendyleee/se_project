@@ -276,7 +276,19 @@ def UserUpdateManager(request):
     user['address'] = entry.address
     user['tel_number'] = entry.telephone
     user['user_name'] = request.session.get('user_name')
-
+    print(entry.sex=='男')
+    if entry.sex =='男':
+        user['s1'] = 'selected'
+        user['s2'] = ''
+        user['s3'] = ''
+    elif entry.sex =='女':
+        user['s1'] = ''
+        user['s2'] = 'selected'
+        user['s3'] = ''
+    else:
+        user['s1'] = ''
+        user['s2'] = ''
+        user['s3'] = 'selected'
     # print(type(entry.birthday))  # <class 'datetime.date'> 測試用
 
     return render(request, "personal_info_update_v2.html", user)

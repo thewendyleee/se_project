@@ -16,12 +16,21 @@
       <li class="list-item m-4">帳號:  &nbsp&nbsp&nbsp&nbsp<input name="account" type="text" class="Radius" value={{account}} required></li>
       <li class="list-item m-4">密碼:  &nbsp&nbsp&nbsp&nbsp<input name="password" type="text" class="Radius" value={{password}} required></li>
       <li class="list-item m-4">姓名:  &nbsp&nbsp&nbsp&nbsp<input name="name" type="text" class="Radius" value={{name}} required></li>
-      {% comment %} <li class="list-item m-4">性別:  &nbsp&nbsp&nbsp&nbsp<input name="gender" type="text" class="Radius" value={{gender}}></li> {% endcomment %}
       <li class="list-item m-4">性別:  &nbsp&nbsp&nbsp&nbsp<select name="gender">
-        <option value="None" selected>請選擇性別</option>
-        <option value="男">男</option>
-        <option value="女">女</option>
-        <option value="其他">其他</option>
+        {% comment %} <option value="None" selected>請選擇性別</option> {% endcomment %}
+        {% if gender == "男" %}
+          <option value="男" selected>男</option>
+          <option value="女">女</option>
+          <option value="其他">其他</option>
+        {% elif gender == "女" %}
+          <option value="男">男</option>
+          <option value="女" selected>女</option>
+          <option value="其他">其他</option>
+        {% elif gender == "其他" %}
+          <option value="男">男</option>
+          <option value="女">女</option>
+          <option value="其他" selected>其他</option>
+        {% endif %}
       </select></li>
       <li class="list-item m-4">生日:  &nbsp&nbsp&nbsp&nbsp<input name="birth" type="date" class="Radius" value={{birth}} required></li>
       <li class="list-item m-4">住址:  &nbsp&nbsp&nbsp&nbsp<input name="address" type="text" class="Radius" value={{address}} required></li>
