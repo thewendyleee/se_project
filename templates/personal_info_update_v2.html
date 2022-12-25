@@ -13,9 +13,9 @@
   <form action="/upload" method="POST">
     {% csrf_token %}
   <div class="col">
-      <li class="list-item m-4">帳號:  &nbsp&nbsp&nbsp&nbsp<input name="account" type="text" class="Radius" value={{account}}></li>
-      <li class="list-item m-4">密碼:  &nbsp&nbsp&nbsp&nbsp<input name="password" type="text" class="Radius" value={{password}}></li>
-      <li class="list-item m-4">姓名:  &nbsp&nbsp&nbsp&nbsp<input name="name" type="text" class="Radius" value={{name}}></li>
+      <li class="list-item m-4">帳號:  &nbsp&nbsp&nbsp&nbsp<input name="account" type="text" class="Radius" value={{account}} required></li>
+      <li class="list-item m-4">密碼:  &nbsp&nbsp&nbsp&nbsp<input name="password" type="text" class="Radius" value={{password}} required></li>
+      <li class="list-item m-4">姓名:  &nbsp&nbsp&nbsp&nbsp<input name="name" type="text" class="Radius" value={{name}} required></li>
       {% comment %} <li class="list-item m-4">性別:  &nbsp&nbsp&nbsp&nbsp<input name="gender" type="text" class="Radius" value={{gender}}></li> {% endcomment %}
       <li class="list-item m-4">性別:  &nbsp&nbsp&nbsp&nbsp<select name="gender">
         <option value="None" selected>請選擇性別</option>
@@ -23,9 +23,9 @@
         <option value="女">女</option>
         <option value="其他">其他</option>
       </select></li>
-      <li class="list-item m-4">生日:  &nbsp&nbsp&nbsp&nbsp<input name="birth" type="date" class="Radius" value={{birth}}></li>
-      <li class="list-item m-4">住址:  &nbsp&nbsp&nbsp&nbsp<input name="address" type="text" class="Radius" value={{address}}></li>
-      <li class="list-item m-4">電話:  &nbsp&nbsp&nbsp&nbsp<input name="tel_number" type="text" class="Radius" value={{tel_number}}></li>
+      <li class="list-item m-4">生日:  &nbsp&nbsp&nbsp&nbsp<input name="birth" type="date" class="Radius" value={{birth}} required></li>
+      <li class="list-item m-4">住址:  &nbsp&nbsp&nbsp&nbsp<input name="address" type="text" class="Radius" value={{address}} required></li>
+      <li class="list-item m-4">電話:  &nbsp&nbsp&nbsp&nbsp<input name="tel_number" type="text" class="Radius" value={{tel_number}} required></li>
   </div>
 
   <div class="position-absolute start-50 mt-5 translate-middle">
