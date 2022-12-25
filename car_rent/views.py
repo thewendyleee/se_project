@@ -19,8 +19,7 @@ def rent(request):
     for i in range(len(list(entry))):
         data.append(str(list(entry)[i].station_name))
     rent_context['stations'] = data
-    
-    
+
     # 查看是否有訂單
     try:
         O = Order.objects.get(order_user=user_id)
@@ -141,7 +140,7 @@ def report(request):
                 newreport.save()
                 AllCar = Car.objects.all()
                 AllCarN = Car.objects.all().count()
-                #判斷找尋車輛、確認目前車輛狀況
+                # 判斷找尋車輛、確認目前車輛狀況
                 for i in range(AllCarN):
                     if (AllCar[i].id == int(CarId)):
                         C = AllCar[i]
@@ -208,6 +207,7 @@ def logout(request):
     return redirect('/login')
 
 
+@csrf_exempt
 def register(request):
     if request.method == 'POST':
         if request.POST:
@@ -228,6 +228,7 @@ def register(request):
     return render(request, "register.html")
 
 
+@csrf_exempt
 def register_check(request):
     res = {"code": 2000, "msg": ""}
     acc = request.GET.get("account")
@@ -333,15 +334,15 @@ def UserUploadManager(request):
 
 def OrderManager(request):
     user_id = request.session['user_id']
-    
-    #從資料庫取站
+
+    # 從資料庫取站
     order = {}
     data = []
     entry = Station.objects.all()
     for i in range(len(list(entry))):
         data.append(str(list(entry)[i].station_name))
     order['stations'] = data
-    
+
     try:
         O = Order.objects.get(order_user=user_id)
     except:
@@ -349,7 +350,7 @@ def OrderManager(request):
 
     if O != None:
         entry = Order.objects.get(order_user=user_id)
-        order['Code'] = str(entry.unlock_code)[0:8]   #只取8位字母
+        order['Code'] = str(entry.unlock_code)[0:8]  # 只取8位字母
         order['activeT'] = entry.order_use_time
         order['returnT'] = entry.order_return_time
         order['Place'] = entry.order_station
@@ -381,8 +382,8 @@ def OrderManager(request):
 # 處理 兩個submit button 需做出的反應
 def order_upload(request):
     user_id = request.session['user_id']
-    
-    #從資料庫取站 
+
+    # 從資料庫取站
     order = {}
     data = []
     entry = Station.objects.all()
@@ -399,23 +400,21 @@ def order_upload(request):
 
     if 'unlock' in request.POST:
         if request.POST['unlock'] == '解鎖':
-            #order = {}
-            order['Code'] = str(O.unlock_code)[0:8]  #只取8位字母
+            # order = {}
+            order['Code'] = str(O.unlock_code)[0:8]  # 只取8位字母
 
             # 避免重新進入頁面時，用車時間被刷新
             if O.order_use_time == None:
                 O.order_use_time = datetime.now()
                 O.save()
-                
+
             order['activeT'] = O.order_use_time
             order['returnT'] = ''
             order['Place'] = O.order_station
             order['CarN'] = O.order_car
 
-
             O.order_status = '使用中'
             O.save()
-
 
             order['btn_text'] = '還車'
             order['Disable'] = True
@@ -430,45 +429,44 @@ def order_upload(request):
             trans_id = O.unlock_code
             trans_user = User.objects.get(id=user_id)
             # trans_car = O.order_car.id
-            
+
             O.order_status = '已付款'
             O.save()
-            
-        # 處理還車站點
+
+            # 處理還車站點
             station = request.POST['return_station']  # 從前端取得還車站點
             trans_station = Station.objects.get(station_name=station)  # 根據站點名稱找到Station object
-            trans_station_name = trans_station.station_name  #轉為字串，用於傳入建構Transaction
+            trans_station_name = trans_station.station_name  # 轉為字串，用於傳入建構Transaction
 
-            AllCar = Car.objects.all()  #所有車輛
-            AllCarNum = Car.objects.all().count()  #所有車輛數
-            current_car_num = 0   #目前站點車輛數
+            AllCar = Car.objects.all()  # 所有車輛
+            AllCarNum = Car.objects.all().count()  # 所有車輛數
+            current_car_num = 0  # 目前站點車輛數
 
             # 計算該站點目前有多少車輛
             for i in range(AllCarNum):
                 if AllCar[i].locate_station == trans_station:
-                    current_car_num = current_car_num+1
+                    current_car_num = current_car_num + 1
 
             # 檢查站點車輛數是否爆滿
             if trans_station.maximum_load <= current_car_num:
-                messages.success(request,'站點已爆滿，請前往其他站點停車')
+                messages.success(request, '站點已爆滿，請前往其他站點停車')
                 return redirect('/order')
 
-        # 更新車輛位置，並轉為字串存入transaction
-            car = O.order_car  #取得該order車輛
+            # 更新車輛位置，並轉為字串存入transaction
+            car = O.order_car  # 取得該order車輛
             car.locate_station = trans_station  # 更新車輛位置為還車之station
             car.status = '正常'
             car.save()
-            trans_car = str(car.id)+"號  "+str(car.car_type.type_name) #轉為字串，用於傳入建構Transaction
+            trans_car = str(car.id) + "號  " + str(car.car_type.type_name)  # 轉為字串，用於傳入建構Transaction
 
-        # 處理時間差算錢
+            # 處理時間差算錢
             # print(str(pick_up_time)[0:19]) #測試用
             time_1 = datetime.strptime(str(pick_up_time)[0:19], '%Y-%m-%d %H:%M:%S')
             time_2 = datetime.strptime(str(return_time)[0:19], '%Y-%m-%d %H:%M:%S')
             delta = time_2 - time_1
             price = 1 + ((delta.seconds) / 60) - 480  # 因時區問題減8小時更正 ， +1表示至少一塊
 
-
-        #把order轉存為transaction
+            # 把order轉存為transaction
 
             O.delete()
 
@@ -492,10 +490,8 @@ def order_upload(request):
                     break
             O.delete()
 
-
         messages.success(request, "刪除成功")
         return redirect('/order')
-
 
 
 def TransactionManager(request):
@@ -520,7 +516,7 @@ def TransDetailManager(request, trans_id):
     entry = Transaction.objects.get(transaction_id=trans_id)
     # 用URL 綁定指定資料的機制 ##############
 
-    transdetail['trans_id'] = str(entry.transaction_id)[0:8]  #只取前8位
+    transdetail['trans_id'] = str(entry.transaction_id)[0:8]  # 只取前8位
     transdetail['get_time'] = entry.pick_up_car_time
     transdetail['return_time'] = entry.return_car_time
     transdetail['vehicle_id'] = entry.transaction_car
@@ -585,11 +581,8 @@ def finishrent(request, Place, CarT):
             # print("date1 is ",date1)
             items = Order.objects.create(order_user=U, order_car=C)
 
-
             items.save()
             messages.success(request, "預約成功")
             return redirect('/order/')
 
-    return render(request, "finishrent.html",rent_context)
-
-
+    return render(request, "finishrent.html", rent_context)
