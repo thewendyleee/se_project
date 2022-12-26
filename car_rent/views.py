@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 # Create your views here.
 
 # 育慈
+@csrf_exempt
 def rent(request):
     user_id = request.session['user_id']
     rent_context = {}
@@ -86,7 +87,7 @@ def rent(request):
         rent_context['user_name'] = request.session.get('user_name')
         return render(request, "rent.html", rent_context)
 
-
+@csrf_exempt
 def rent_car_num_check(request):
     res = {"bike": 0, "scooter": 0}
     AllCar = Car.objects.all()
@@ -331,7 +332,7 @@ def UserUploadManager(request):
 
     return render(request, "personal_info_v2.html", user)
 
-
+@csrf_exempt
 def OrderManager(request):
     user_id = request.session['user_id']
 
@@ -380,6 +381,7 @@ def OrderManager(request):
 
 
 # 處理 兩個submit button 需做出的反應
+@csrf_exempt
 def order_upload(request):
     user_id = request.session['user_id']
 
@@ -526,7 +528,7 @@ def TransDetailManager(request, trans_id):
 
     return render(request, "transaction_detail.html", transdetail)
 
-
+@csrf_exempt
 def finishrent(request, Place, CarT):
     user_id = request.session['user_id']
     rent_context = {}
