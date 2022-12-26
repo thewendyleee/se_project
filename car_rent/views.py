@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 # 育慈
 @csrf_exempt
 def rent(request):
-    user_id = request.session['user_id']
+    user_id = request.session.get('user_id')
     rent_context = {}
     data = []
     entry = Station.objects.all()
@@ -190,14 +190,14 @@ def login(request):
             if acc == user_val[0]['account'] and password == user_val[0]['password']:  # 判斷此帳號密碼是否正確
                 # return HttpResponse('Welcome!~'+user_val[0]['user_name']) 測試用
                 request.session['user_name'] = user_val[0]['user_name']
-                request.session['user_id'] = user_val[0]['id']  # get user's id
-                return redirect('/rent/')
+                request.session['user_id'] = str(user_val[0]['id'])  # get user's id
+                return HttpResponseRedirect('/rent/')
             else:
                 messages.success(request, "密碼錯誤")
-                return redirect('/login')
+                return HttpResponseRedirect('/login')
         except:
             messages.success(request, "帳號錯誤！")
-            return redirect('/login')
+            return HttpResponseRedirect('/login')
     else:
         return render(request, 'login.html')
 
