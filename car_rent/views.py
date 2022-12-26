@@ -191,7 +191,7 @@ def login(request):
                 # return HttpResponse('Welcome!~'+user_val[0]['user_name']) 測試用
                 request.session['user_name'] = user_val[0]['user_name']
                 request.session['user_id'] = user_val[0]['id']  # get user's id
-                return redirect('/rent')
+                return redirect('/rent/')
             else:
                 messages.success(request, "密碼錯誤")
                 return redirect('/login')
