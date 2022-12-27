@@ -16,6 +16,28 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
+    <!---->
+    <script src="https://cdn.jsdelivr.net/npm/@emretulek/jbvalidator"></script>
+    <script>
+        $(function () {
+
+            let validator = $('form.needs-validation').jbvalidator({
+                errorMessage: true,
+                successClass: true,
+                //language: "../assets/js/validation/lang/cn.json"
+            });
+
+            //custom validate methode
+
+            //check form without submit
+            //validator.checkAll(); //return error count
+
+            //reload instance after dynamic element is added
+            validator.reload();
+        })
+    </script>
+
+
 </head>
 <body>
 <script src=“https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
@@ -23,58 +45,62 @@
     <div class="row">
         <div class="col-7" style="height: 100vh;">
             {% load static %}
-            <div style="position: fixed;height: 100vh">
+            <div style="height: 100vh">
                 <img style="" src="{% static 'images/ncudoor.jpeg' %}" alt="" width=100% height=100%>
             </div>
         </div>
         <div class="col-5" style="margin: auto;text-align: center;">
             <div class="m-5">
-                <form class="needs-validation" action="/register/" method ='post' name="myform" novalidate>
+                <form class="needs-validation" action="/register/" method='post' name="myform" novalidate>
                     {% csrf_token %}
                     <h2 class="m-4">註冊中央租車系統</h2>
                     <div class="mb-3" style="text-align: left">
                         <label for="userid" class="form-label">請輸入使用者名稱</label>
-                        <input type="text" class="form-control" id="userid" name="userid" placeholder="範例：蘇世戒" required>
-                        <div class="invalid-feedback">必填</div>
+                        <input type="text" class="form-control" id="userid" name="userid" placeholder="範例：蘇世戒"
+                               data-v-max-length="6" required>
+                        <div class="invalid-feedback"></div>
                     </div>
                     <div class="mb-3" style="text-align: left">
                         <label for="account" class="form-label">請輸入帳號</label>
-                        <input type="text" class="form-control" id="account" name="account" placeholder="範例:111423111" required>
-                        <div class="invalid-feedback">必填</div>
+                        <input type="text" class="form-control" id="account" name="account" placeholder="範例:111423111"
+                               data-v-min-length="6" data-v-max-length="20" required>
+                        <div class="invalid-feedback"></div>
                         <span id="msguser" style="color: red"></span>
                     </div>
                     <div class="mb-3" style="text-align: left">
                         <label for="pwd" class="form-label">請輸入密碼</label>
-                        <input type="password" id="pwd" class="form-control" name="pwd" aria-describedby="passwordHelpBlock" required>
-                        <div class="invalid-feedback">必填</div>
+                        <input type="password" id="pwd" class="form-control" name="pwd"
+                               aria-describedby="passwordHelpBlock" required>
+                        <div class="invalid-feedback"></div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col" style="text-align: left">
                             <label for="date" class="form-label">請輸入生日</label>
                             <input type="date" class="form-control" id="date" name="date" required>
-                            <div class="invalid-feedback">必填</div>
+                            <div class="invalid-feedback"></div>
                         </div>
                         <div class="col" style="text-align: left">
                             <p><label for="inputsex" class="form-label">請輸入性別</label>
-                            <select class="form-select"  id="inputsex" name="input_sex" required>
-                                <option selected disabled value="">選擇性別</option>
-                                <option value="男">男</option>
-                                <option value="女">女</option>
-                                <option value="其他">不願公開</option>
-                            </select>
+                                <select class="form-select" id="inputsex" name="input_sex" required>
+                                    <option selected disabled value="">選擇性別</option>
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
+                                    <option value="其他">不願公開</option>
+                                </select>
                             </p>
-                            <div class="invalid-feedback">必填</div>
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="mb-3" style="text-align: left">
                         <label for="phone" class="form-label">請輸入電話號碼</label>
-                        <input type="tel" class="form-control" id="phone"name="phone"placeholder="範例：09xxxxxxxx" required>
-                        <div class="invalid-feedback">必填</div>
+                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="範例：09xxxxxxxx"
+                               data-v-max-length="10" required>
+                        <div class="invalid-feedback"></div>
                     </div>
                     <div class="mb-3" style="text-align: left">
                         <label for="address" class="form-label">請輸入地址</label>
                         <input type="text" class="form-control" id="address" name="address" placeholder="" required>
-                        <div class="invalid-feedback">必填</div>
+                        <div class="invalid-feedback"></div>
                     </div>
 
                     <div class="d-grid gap-2 mt-3">
@@ -90,50 +116,50 @@
     </div>
 </div>
 <script>
-// 如果验证不通过禁止提交表单
-(function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // 获取表单验证样式
-    var forms = document.getElementsByClassName('needs-validation');
-    // 循环并禁止提交
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
+    // 如果验证不通过禁止提交表单
+    {#(function() {#}
+    {#  'use strict';#}
+    {#  window.addEventListener('load', function() {#}
+    {#    // 获取表单验证样式#}
+    {#    var forms = document.getElementsByClassName('needs-validation');#}
+    {#    // 循环并禁止提交#}
+    {#    var validation = Array.prototype.filter.call(forms, function(form) {#}
+    {#      form.addEventListener('submit', function(event) {#}
+    {#        if (form.checkValidity() === false) {#}
+    {#          event.preventDefault();#}
+    {#          event.stopPropagation();#}
+    {#        }#}
+    {#        form.classList.add('was-validated');#}
+    {#      }, false);#}
+    {#    });#}
+    {#  }, false);#}
+    //})();
+
+
+    $("#account").mouseleave(
+        function () {
+
+            var account = $("#account").val();
+
+            var url = "/register_check/?account=" + account;
+            $.ajax({
+                url: url,
+                type: "get",
+                {#data:"",  // 请求要发送的数据  常在post请求中使用，get请求只需要拼接请求的url就可以#}
+                success: function (data) {
+                    console.log(data);
+                    $("#msguser").text(data["msg"]);
+                    if (data["msg"] == '此帳號已存在')
+                        document.getElementById('submit').disabled = true;
+                    else
+                        document.getElementById('submit').disabled = false;
+                },
+                error: function (error) {
+
+                }
+            })
         }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
-
-
-$("#account").blur(
-         function () {
-
-             var account = $("#account").val();
-
-             var url = "/register_check/?account=" + account;
-             $.ajax({
-                 url:url,
-                 type:"get",
-                 {#data:"",  // 请求要发送的数据  常在post请求中使用，get请求只需要拼接请求的url就可以#}
-                 success:function (data) {
-                     console.log(data);
-                     $("#msguser").text(data["msg"]);
-                     if (data["msg"] == '此已帳號存在')
-                         document.getElementById('submit').disabled=true;
-                     else
-                        document.getElementById('submit').disabled=false;
-                 },
-                 error:function (error) {
-
-                 }
-             })
-         }
-     )
+    )
 </script>
 
 
