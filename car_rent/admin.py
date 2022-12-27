@@ -6,13 +6,14 @@ from .models import *
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('account', 'user_name', 'birthday', 'sex', 'telephone', 'address')
+    list_filter = ['user_name']
 
 
 admin.site.register(User, UserAdmin)
 
 
 class CarTypeAdmin(admin.ModelAdmin):
-    list_display = ('id','type_name', 'type_number')
+    list_display = ('id', 'type_name', 'type_number')
 
 
 admin.site.register(CarType, CarTypeAdmin)
@@ -33,7 +34,8 @@ admin.site.register(Station, StationAdmin)
 
 
 class UserOrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'order_car', 'order_use_time', 'order_return_time',  'order_user', 'order_station', 'order_status')
+    list_display = (
+    'id', 'order_car', 'order_use_time', 'order_return_time', 'order_user', 'order_station', 'order_status')
 
 
 admin.site.register(Order, UserOrderAdmin)
@@ -48,7 +50,8 @@ admin.site.register(Report, ReportAdmin)
 
 class TransactionAdmin(admin.ModelAdmin):
     list_display = (
-    'id', 'pick_up_car_time', 'return_car_time', 'transaction_user', 'transaction_car', 'transaction_station', 'pay')
+        'id', 'pick_up_car_time', 'return_car_time', 'transaction_user', 'transaction_car', 'transaction_station',
+        'pay')
 
 
 admin.site.register(Transaction, TransactionAdmin)
